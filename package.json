@@ -1,0 +1,33 @@
+{
+    "name": "react-native-aliyun-push",
+    "version": "0.0.1",
+    "description": "A react native wrapper for aliyun push SDK",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wonday/react-native-aliyun-push.git"
+    },
+    "keywords": [
+        "react-component",
+        "react-native",
+        "android",
+        "ios",
+        "aliyun",
+        "ali",
+        "push",
+        "aliyun-push",
+        "ali-push"
+    ],
+    "author": {
+        "name": "Wonday",
+        "url": "https://github.com/wonday"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/wonday/react-native-aliyun-push/issues"
+    },
+    "dependencies": {
+    },
+    "peerDependencies": {
+    }
+}

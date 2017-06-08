@@ -41,7 +41,9 @@ yarn-error.log
 
 # others
 #
+.npmignore
 .buckconfig
 .flowconfig
 .gitattributes
+.gitignore
 .watchmanconfig
