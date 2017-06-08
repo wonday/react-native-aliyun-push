@@ -110,7 +110,17 @@ export default class AliyunPush {
         var key = getKey(cb,type);
         listeners[key] = LocalEventEmitter.addListener(type,
             (e) => {
-                cb(e);
+                if (type==="onAliyunPushNotificationOpened"){
+                    if (e.extraMap){
+                        let extraMap = JSON.parse(e.extraMap);
+                        for (var attrname in extraMap) { e[attrname] = extraMap[attrname]; }
+                        delete e.extraMap;
+                        cb(e);
+                    }
+                } else {
+                    cb(e);
+                }
+
             });
 
     };
