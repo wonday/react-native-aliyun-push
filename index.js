@@ -38,96 +38,107 @@ function getKey(listener,type){
 
 export default class AliyunPush {
 
-    static getDeviceId = (cb)=> {
+    static getDeviceId = (callback)=> {
         AliyunPushNative.getDeviceId(function(args) {
-            cb(args);
+            callback(args);
         });
     }
 
-    static addMessageListener = (cb) => {
+    static getApplicationIconBadgeNumber = (callback)=> {
+        AliyunPushNative.getApplicationIconBadgeNumber(function(args) {
+            callback(args);
+        });
+    }
 
-        AliyunPush._addListener(cb,"onAliyunPushMessage");
+    static setApplicationIconBadgeNumber = (num)=> {
+        AliyunPushNative.setApplicationIconBadgeNumber(num);
+    }
+
+    static bindAccount = (account , callback)=> {
+        AliyunPushNative.bindAccount(account,function(result){
+            callback(result);
+        });
+    }
+
+    static unbindAccount = (callback)=> {
+        AliyunPushNative.unbindAccount(function(result){
+            callback(result);
+        });
+    }
+
+    static bindTag = (target, tags, alias, callback)=> {
+        AliyunPushNative.bindTag(target, tags, alias,function(result){
+            callback(result);
+        });
+    }
+
+    static unbindTag = (target, tags, alias, callback)=> {
+        AliyunPushNative.unbindTag(target, tags, alias, function(result){
+            callback(result);
+        });
+    }
+
+    static listTags = (target , callback)=> {
+        AliyunPushNative.listTags(target,function(result){
+            callback(result);
+        });
+    }
+
+    static addAlias = (alias , callback)=> {
+        AliyunPushNative.addAlias(alias,function(result){
+            callback(result);
+        });
+    }
+
+    static removeAlias = (alias , callback)=> {
+        AliyunPushNative.removeAlias(alias,function(result){
+            callback(result);
+        });
+    }
+
+    static listAliases = (callback)=> {
+        AliyunPushNative.listAliases(function(result){
+            callback(result);
+        });
+    }
+
+    static addListener = (callback) => {
+
+        AliyunPush._addListener(callback,"aliyunPushReceived");
 
     };
 
-    static removeMessageListener = (cb) => {
+    static removListener = (callback) => {
 
-        AliyunPush._removeListener(cb, "onAliyunPushMessage");
-
-    };
-
-    static addNotificationListener = (cb) => {
-
-        AliyunPush._addListener(cb,"onAliyunPushNotification");
+        AliyunPush._removeListener(callback, "aliyunPushReceived");
 
     };
 
-    static removeNotificationListener = (cb) => {
+    static _addListener = (callback,type) => {
 
-        AliyunPush._removeListener(cb, "onAliyunPushNotification");
-
-    };
-
-    static addNotificationOpenedListener = (cb) => {
-
-        AliyunPush._addListener(cb,"onAliyunPushNotificationOpened");
-
-    };
-
-    static removeNotificationOpenedListener = (cb) => {
-
-        AliyunPush._removeListener(cb, "onAliyunPushNotificationOpened");
-
-    };
-
-
-    static addNotificationRemovedListener = (cb) => {
-
-        AliyunPush._addListener(cb,"onAliyunPushNotificationRemoved");
-
-    };
-
-    static removeNotificationRemovedListener = (cb) => {
-
-        AliyunPush._removeListener(cb, "onAliyunPushNotificationRemoved");
-
-    };
-
-    static addNotificationReceivedInAppListener = (cb) => {
-
-        AliyunPush._addListener(cb,"onNotificationReceivedInApp");
-
-    };
-
-    static removeNotificationReceivedInAppListener = (cb) => {
-
-        AliyunPush._removeListener(cb, "onNotificationReceivedInApp");
-
-    };
-
-    static _addListener = (cb,type) => {
-
-        var key = getKey(cb,type);
+        var key = getKey(callback,type);
         listeners[key] = LocalEventEmitter.addListener(type,
             (e) => {
-                if (type==="onAliyunPushNotificationOpened"){
-                    if (e.extraMap){
-                        let extraMap = JSON.parse(e.extraMap);
-                        for (var attrname in extraMap) { e[attrname] = extraMap[attrname]; }
-                        delete e.extraMap;
-                        cb(e);
+
+                // convert json string to obj
+                if (e.extraStr) {
+                    let extras = JSON.parse(e.extraStr);
+                    if (extras) {
+                        e.extras = extras;
                     }
+                    delete e.extraStr;
+                    callback(e);
                 } else {
-                    cb(e);
+                    callback(e);
                 }
 
             });
 
     };
 
-    static _removeListener = (cb,type) => {
+    static _removeListener = (callback,type) => {
 
-        var key = getKey(cb,type);
+        var key = getKey(callback,type);
         if (!listeners[key]) {
             return;
         }
