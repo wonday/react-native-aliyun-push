@@ -38,68 +38,52 @@ function getKey(listener,type){
 
 export default class AliyunPush {
 
-    static getDeviceId = (callback)=> {
+    static getDeviceId = (callback) => {
         AliyunPushNative.getDeviceId(function(args) {
             callback(args);
         });
     }
 
-    static getApplicationIconBadgeNumber = (callback)=> {
+    static getApplicationIconBadgeNumber = (callback) => {
         AliyunPushNative.getApplicationIconBadgeNumber(function(args) {
             callback(args);
         });
     }
 
-    static setApplicationIconBadgeNumber = (num)=> {
+    static setApplicationIconBadgeNumber = (num) => {
         AliyunPushNative.setApplicationIconBadgeNumber(num);
     }
 
-    static bindAccount = (account , callback)=> {
-        AliyunPushNative.bindAccount(account,function(result){
-            callback(result);
-        });
+    static bindAccount = (account) => {
+        return AliyunPushNative.bindAccount(account);
     }
 
-    static unbindAccount = (callback)=> {
-        AliyunPushNative.unbindAccount(function(result){
-            callback(result);
-        });
+    static unbindAccount = () => {
+        return AliyunPushNative.unbindAccount();
     }
 
-    static bindTag = (target, tags, alias, callback)=> {
-        AliyunPushNative.bindTag(target, tags, alias,function(result){
-            callback(result);
-        });
+    static bindTag = (target, tags, alias) => {
+        return AliyunPushNative.bindTag(target, tags, alias);
     }
 
-    static unbindTag = (target, tags, alias, callback)=> {
-        AliyunPushNative.unbindTag(target, tags, alias, function(result){
-            callback(result);
-        });
+    static unbindTag = (target, tags, alias) => {
+        return AliyunPushNative.unbindTag(target, tags, alias);
     }
 
-    static listTags = (target , callback)=> {
-        AliyunPushNative.listTags(target,function(result){
-            callback(result);
-        });
+    static listTags = (target) => {
+        return AliyunPushNative.listTags(target);
     }
 
-    static addAlias = (alias , callback)=> {
-        AliyunPushNative.addAlias(alias,function(result){
-            callback(result);
-        });
+    static addAlias = (alias) => {
+        return AliyunPushNative.addAlias(alias);
     }
 
-    static removeAlias = (alias , callback)=> {
-        AliyunPushNative.removeAlias(alias,function(result){
-            callback(result);
-        });
+    static removeAlias = (alias) => {
+        return AliyunPushNative.removeAlias(alias);
     }
 
-    static listAliases = (callback)=> {
-        AliyunPushNative.listAliases(function(result){
-            callback(result);
-        });
+    static listAliases = () => {
+        return AliyunPushNative.listAliases();
     }
 
     static addListener = (callback) => {

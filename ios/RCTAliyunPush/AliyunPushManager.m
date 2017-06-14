@@ -115,15 +115,16 @@ RCT_EXPORT_METHOD(getDeviceId:(RCTResponseSenderBlock)callback)
 /**
  * bind account to cloud sdk
  */
-RCT_EXPORT_METHOD(bindAccount:(NSString *)account callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(bindAccount:(NSString *)account
+                    resolver:(RCTPromiseResolveBlock)resolve
+                    rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK bindAccount:account withCallback:^(CloudPushCallbackResult *res) {
-        NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-        dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-        dictRes[@"data"] = res.data;
-        dictRes[@"error"] = res.error;
-        
-        callback(@[dictRes]);
+        if (res.success) {
+            resolve([NSNull null]);
+        } else {
+            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+        }
     }];
 }
 
@@ -131,15 +132,15 @@ RCT_EXPORT_METHOD(bindAccount:(NSString *)account callback:(RCTResponseSenderBlo
  * unbind account from cloud sdk
  */
 
-RCT_EXPORT_METHOD(unbindAccount:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(unbindAccount:(RCTPromiseResolveBlock)resolve
+                       rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK unbindAccount:^(CloudPushCallbackResult *res) {
-        NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-        dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-        dictRes[@"data"] = res.data;
-        dictRes[@"error"] = res.error;
-        
-        callback(@[dictRes]);
+        if (res.success) {
+            resolve([NSNull null]);
+        } else {
+            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+        }
     }];
 }
 
@@ -148,18 +149,18 @@ RCT_EXPORT_METHOD(unbindAccount:(RCTResponseSenderBlock)callback)
 RCT_EXPORT_METHOD(bindTag:(int)target
                   withTags:(NSArray *)tags
                   withAlias:(NSString *)alias
-                  withCallback:(RCTResponseSenderBlock)callback)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK bindTag:target
                  withTags:tags
                 withAlias:alias
              withCallback:^(CloudPushCallbackResult *res) {
-                 NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-                 dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-                 dictRes[@"data"] = res.data;
-                 dictRes[@"error"] = res.error;
-                 
-                 callback(@[dictRes]);
+                 if (res.success) {
+                     resolve([NSNull null]);
+                 } else {
+                     reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+                 }
              }];
 }
 
@@ -170,18 +171,18 @@ RCT_EXPORT_METHOD(bindTag:(int)target
 RCT_EXPORT_METHOD(unbindTag:(int)target
                   withTags:(NSArray *)tags
                   withAlias:(NSString *)alias
-                  withCallback:(RCTResponseSenderBlock)callback)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK unbindTag:target
                    withTags:tags
                   withAlias:alias
                withCallback:^(CloudPushCallbackResult *res) {
-                   NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-                   dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-                   dictRes[@"data"] = res.data;
-                   dictRes[@"error"] = res.error;
-                   
-                   callback(@[dictRes]);
+                   if (res.success) {
+                       resolve([NSNull null]);
+                   } else {
+                       reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+                   }
                }];
 }
 
@@ -190,31 +191,32 @@ RCT_EXPORT_METHOD(unbindTag:(int)target
  */
 
 RCT_EXPORT_METHOD(listTags:(int)target
-                  withCallback:(RCTResponseSenderBlock)callback)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK listTags:target
               withCallback:^(CloudPushCallbackResult *res) {
-                  NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-                  dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-                  dictRes[@"data"] = res.data;
-                  dictRes[@"error"] = res.error;
-                  
-                  callback(@[dictRes]);
+                  if (res.success) {
+                      resolve(res.data);
+                  } else {
+                      reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+                  }
              }];
 }
 
 /**
  * add alias to cloud sdk
  */
-RCT_EXPORT_METHOD(addAlias:(NSString *)alias callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(addAlias:(NSString *)alias
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK addAlias:alias withCallback:^(CloudPushCallbackResult *res) {
-        NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-        dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-        dictRes[@"data"] = res.data;
-        dictRes[@"error"] = res.error;
-        
-        callback(@[dictRes]);
+        if (res.success) {
+            resolve([NSNull null]);
+        } else {
+            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+        }
     }];
 }
 
@@ -222,15 +224,16 @@ RCT_EXPORT_METHOD(addAlias:(NSString *)alias callback:(RCTResponseSenderBlock)ca
  * remove alias from cloud sdk
  */
 
-RCT_EXPORT_METHOD(removeAlias:(NSString *)alias withCallback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(removeAlias:(NSString *)alias
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK removeAlias:alias withCallback:^(CloudPushCallbackResult *res) {
-        NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-        dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-        dictRes[@"data"] = res.data;
-        dictRes[@"error"] = res.error;
-        
-        callback(@[dictRes]);
+        if (res.success) {
+            resolve([NSNull null]);
+        } else {
+            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+        }
     }];
 }
 
@@ -238,15 +241,15 @@ RCT_EXPORT_METHOD(removeAlias:(NSString *)alias withCallback:(RCTResponseSenderB
  * list aliases of target
  */
 
-RCT_EXPORT_METHOD(listAliases:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
+                     rejecter:(RCTPromiseRejectBlock)reject)
 {
     [CloudPushSDK listAliases:^(CloudPushCallbackResult *res) {
-        NSMutableDictionary *dictRes = [NSMutableDictionary dictionaryWithCapacity:3];
-        dictRes[@"success"] = [NSNumber numberWithBool:res.success];
-        dictRes[@"data"] = res.data;
-        dictRes[@"error"] = res.error;
-        
-        callback(@[dictRes]);
+        if (res.success) {
+            resolve(res.data);
+        } else {
+            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+        }
     }];
 }
 
