@@ -1,3 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.wonday.aliyun.push">
+    <application
+            android:allowBackup="true"
+            android:label="@string/app_name">
+        <receiver
+                android:name="org.wonday.aliyun.push.AliyunPushMessageReceiver"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.sdk.android.push.RECEIVE" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

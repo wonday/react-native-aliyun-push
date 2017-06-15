@@ -20,10 +20,13 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.common.logging.FLog;
-import com.facebook.react.bridge.LifecycleEventListener;
-
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
@@ -52,15 +55,131 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
-    public void bindAccount(String account, final Callback callback) {
+    public void setApplicationIconBadgeNumber(int num, final Promise promise) {
+        promise.resolve("");
+    }
+
+    @ReactMethod
+    public void getApplicationIconBadgeNumber(Callback callback) {
+        callback.invoke(0);
+    }
+
+    @ReactMethod
+    public void bindAccount(String account, final Promise promise) {
         PushServiceFactory.getCloudPushService().bindAccount(account, new CommonCallback() {
             @Override
-            public void onSuccess(String s) {
-                callback.invoke("bind account success");
+            public void onSuccess(String response) {
+                promise.resolve(response);
             }
             @Override
-            public void onFailed(String s, String s1) {
-                callback.invoke("bind account failed. errorCode:" + s + ", errorMsg:" + s1);
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void unbindAccount(final Promise promise) {
+        PushServiceFactory.getCloudPushService().unbindAccount(new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void bindTag(int target, ReadableArray tags, String alias, final Promise promise) {
+
+        String[] tagStrs = new String[tags.size()];
+        for(int i=0; i<tags.size();i++) tagStrs[i] = tags.getString(i);
+
+        PushServiceFactory.getCloudPushService().bindTag(target, tagStrs, alias, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void unbindTag(int target, ReadableArray  tags, String alias, final Promise promise) {
+
+        String[] tagStrs = new String[tags.size()];
+        for(int i=0; i<tags.size();i++) tagStrs[i] = tags.getString(i);
+
+        PushServiceFactory.getCloudPushService().unbindTag(target, tagStrs, alias, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void listTags(int target, final Promise promise) {
+        PushServiceFactory.getCloudPushService().listTags(target, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void addAlias(String alias, final Promise promise) {
+        PushServiceFactory.getCloudPushService().addAlias(alias, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void removeAlias(String alias, final Promise promise) {
+        PushServiceFactory.getCloudPushService().removeAlias(alias, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void listAliases(final Promise promise) {
+        PushServiceFactory.getCloudPushService().listAliases(new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                promise.resolve(response);
+            }
+            @Override
+            public void onFailed(String code, String message) {
+                promise.reject(code, message);
             }
         });
     }
