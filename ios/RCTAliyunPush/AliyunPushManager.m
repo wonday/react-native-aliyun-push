@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(bindAccount:(NSString *)account
 {
     [CloudPushSDK bindAccount:account withCallback:^(CloudPushCallbackResult *res) {
         if (res.success) {
-            resolve([NSNull null]);
+            resolve(@"");
         } else {
             reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
         }
@@ -137,7 +137,7 @@ RCT_EXPORT_METHOD(unbindAccount:(RCTPromiseResolveBlock)resolve
 {
     [CloudPushSDK unbindAccount:^(CloudPushCallbackResult *res) {
         if (res.success) {
-            resolve([NSNull null]);
+            resolve(@"");
         } else {
             reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
         }
@@ -157,7 +157,7 @@ RCT_EXPORT_METHOD(bindTag:(int)target
                 withAlias:alias
              withCallback:^(CloudPushCallbackResult *res) {
                  if (res.success) {
-                     resolve([NSNull null]);
+                     resolve(@"");
                  } else {
                      reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
                  }
@@ -179,7 +179,7 @@ RCT_EXPORT_METHOD(unbindTag:(int)target
                   withAlias:alias
                withCallback:^(CloudPushCallbackResult *res) {
                    if (res.success) {
-                       resolve([NSNull null]);
+                       resolve(@"");
                    } else {
                        reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
                    }
@@ -213,7 +213,7 @@ RCT_EXPORT_METHOD(addAlias:(NSString *)alias
 {
     [CloudPushSDK addAlias:alias withCallback:^(CloudPushCallbackResult *res) {
         if (res.success) {
-            resolve([NSNull null]);
+            resolve(@"");
         } else {
             reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
         }
@@ -230,7 +230,7 @@ RCT_EXPORT_METHOD(removeAlias:(NSString *)alias
 {
     [CloudPushSDK removeAlias:alias withCallback:^(CloudPushCallbackResult *res) {
         if (res.success) {
-            resolve([NSNull null]);
+            resolve(@"");
         } else {
             reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
         }
