@@ -21,7 +21,7 @@ allprojects {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
-        // 下面是添加的
+        // 下面是添加的代码
         maven {
             url "http://maven.aliyun.com/nexus/content/repositories/releases/"
         }
@@ -37,14 +37,14 @@ project(':react-native-aliyun-push').projectDir = new File(rootProject.projectDi
 3. 确保app/build.gradle中被添加如下代码：
 ```
 dependencies {
-    //下面是被添加的
+    //下面是被添加的代码
     compile project(':react-native-aliyun-push')
     //添加结束
 }
 ```
 4. 确保MainApplication.java中被添加如下代码
 ```
-// 下面是被添加的
+// 下面是被添加的代码
 import org.wonday.aliyun.push.AliyunPushPackage;
 
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -58,7 +58,7 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            //下面是被添加的
+            //下面是被添加的代码
             new AliyunPushPackage()
             //添加结束
       );
@@ -70,12 +70,12 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     
-    //下面是添加的
+    //下面是添加的代码
     this.initCloudChannel();
     //添加结束
   }
 
-  // 下面是添加的
+  // 下面是添加的代码
   /**
    * 初始化阿里云推送通道
    * @param applicationContext
@@ -106,19 +106,25 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
 ```
 
 ## ios配置
-1. 添加node_modules/react-native-aliyun-push/ios/libs下
-```
-AlicloudUtils.framework
-CloudPushSDK.framework
-UTDID.framework
-```
-到xcode工程， 注意将```copy items if needed```打勾。
-注意：从阿里云下载的SDK, UTDID.framework这个有问题编译会报错，请使用react-native-aliyun-push中内置的版本。
 
+1. 添加node_modules/react-native-aliyun-push/ios/RCTAliyunPush.xcodeproj到xcode项目工程
 
-2. 点击项目根节点，在target app的属性BuildPhase的Link Binary With Libraries中添加iOS SDK的```UserNotifications.framework```
+2. 添加阿里云移动推送SDK
+拖拽node_modules/react-native-aliyun-push/ios/libs下列目录到xcode工程，将```copy items if needed```打勾。
+注意：从阿里云下载的SDK中UTDID.framework有问题编译会报错，请使用react-native-aliyun-push中内置的版本。
 
-3. 添加node_modules/react-native-aliyun-push/ios/RCTAliyunPush.xcodeproj到xcode项目工程
+- AlicloudUtils.framework
+- CloudPushSDK.framework
+- UTDID.framework
+
+3. 点击项目根节点，在targets app的属性BuildPhase的Link Binary With Libraries中添加公共包依赖
+
+- libz.tbd
+- libresolv.tbd
+- libsqlite3.tbd
+- CoreTelephony.framework
+- SystemConfiguration.framework
+- UserNotifications.framework
 
 4. 修改AppDelegate.m添加如下代码
 ```
@@ -199,12 +205,12 @@ handleAliyunPushMessage = (e) => {
 	console.log("Message Received. " + JSON.stringify(e));
 
 
-	//e结构说明:
-	//e.type: "notification":通知 或者 "message":消息
-	//e.title: 推送通知/消息标题
-	//e.body: 推送通知/消息具体内容
-	//e.actionIdentifier: "opened":用户点击了通知, "removed"用户删除了通知, 其他非空值:用户点击了自定义action（仅限ios）
-	//e.extras: 用户附加的{key:value}的对象
+    //e结构说明:
+    //e.type: "notification":通知 或者 "message":消息
+    //e.title: 推送通知/消息标题
+    //e.body: 推送通知/消息具体内容
+    //e.actionIdentifier: "opened":用户点击了通知, "removed"用户删除了通知, 其他非空值:用户点击了自定义action（仅限ios）
+    //e.extras: 用户附加的{key:value}的对象
 
 };
 
@@ -212,13 +218,20 @@ handleAliyunPushMessage = (e) => {
 
 阿里云SDK接口封装
 详细参数说明请参考阿里云移动推送SDK [[android版]](https://help.aliyun.com/document_detail/30066.html?spm=5176.doc30064.6.643.Mu5vP0)    [[ios版]](https://help.aliyun.com/document_detail/42668.html?spm=5176.doc30066.6.649.VmzJfM)
+
+**获取deviceId**
+示例:
 ```
-//获取deviceId
 AliyunPush.getDeviceId((deviceId)=>{
     console.log("AliyunPush DeviceId:" + deviceId);
 });
+```
+**绑定账号**
+参数：
+- account 待绑定账号
 
-//绑定账号
+示例:
+```
 AliyunPush.bindAccount(userId)
     .then((data)=>{
         console.log("bindAccount success");
@@ -228,8 +241,10 @@ AliyunPush.bindAccount(userId)
         console.log("bindAccount error");
         console.log(JSON.stringify(error));
     });
-
-//解绑定账号
+```
+**解绑定账号**
+示例:
+```
 AliyunPush.unbindAccount()
     .then((result)=>{
         console.log("unbindAccount success");
@@ -239,8 +254,15 @@ AliyunPush.unbindAccount()
         console.log("bindAccount error");
         console.log(JSON.stringify(error));
     });
-    
-//绑定Tag
+```
+**绑定标签**
+参数：
+- target 目标类型，1：本设备；2：本设备绑定账号；3：别名
+- tags 标签（数组输入）
+- alias 别名（仅当target = 3时生效）
+
+示例:
+```
 AliyunPush.bindTag(1,["testtag1","testtag2"],"")
     .then((result)=>{
         console.log("bindTag success");
@@ -250,8 +272,15 @@ AliyunPush.bindTag(1,["testtag1","testtag2"],"")
         console.log("bindTag error");
         console.log(JSON.stringify(error));
     });
+```
+**解绑定标签**
+参数:
+- target 目标类型，1：本设备；2：本设备绑定账号；3：别名
+- tags 标签（数组输入）
+- alias 别名（仅当target = 3时生效）
 
-//解绑定Tag
+示例:
+```
 AliyunPush.unbindTag(1,["testTag1"],"")
     .then((result)=>{
         console.log("unbindTag succcess");
@@ -261,8 +290,13 @@ AliyunPush.unbindTag(1,["testTag1"],"")
         console.log("unbindTag error");
         console.log(JSON.stringify(error));
     });
+```
+**查询当前Tag列表**
+参数:
+- target 目标类型，1：本设备
 
-//查询当前Tag列表
+示例:
+```
 AliyunPush.listTags(1)
     .then((result)=>{
         console.log("listTags success");
@@ -272,8 +306,13 @@ AliyunPush.listTags(1)
         console.log("listTags error");
         console.log(JSON.stringify(error));
     });
+```
+**添加别名**
+参数:
+- alias 要添加的别名
 
-//添加别名
+示例:
+```
 AliyunPush.addAlias("testAlias")
     .then((result)=>{
         console.log("addAlias success");
@@ -283,8 +322,13 @@ AliyunPush.addAlias("testAlias")
         console.log("addAlias error");
         console.log(JSON.stringify(error));
     });
+```
+**删除别名**
+参数:
+- alias 要移除的别名
 
-//删除别名
+示例:
+```
 AliyunPush.removeAlias("testAlias")
     .then((result)=>{
         console.log("removeAlias success");
@@ -294,8 +338,10 @@ AliyunPush.removeAlias("testAlias")
         console.log("removeAlias error");
         console.log(JSON.stringify(error));
     });
-
-//查询别名列表
+```
+**查询别名列表**
+示例:
+```
 AliyunPush.listAliases()
     .then((result)=>{
         console.log("listAliases success");
@@ -305,11 +351,18 @@ AliyunPush.listAliases()
         console.log("listAliases error");
         console.log(JSON.stringify(error));
     });
-    
-//设置桌面图标角标数字(ios支持，android仅部分手机支持)
-AliyunPush.setApplicationIconBadgeNumber(5);
+```
+**设置桌面图标角标数字** (ios支持，android仅部分手机支持)
+参数:
+- num角标数字
 
-//获取桌面图标角标数字(ios支持，android仅部分手机支持)
+示例:
+```
+AliyunPush.setApplicationIconBadgeNumber(5);
+```
+**获取桌面图标角标数字** (ios支持，android仅部分手机支持)
+示例:
+```
 AliyunPush.getApplicationIconBadgeNumber((num)=>{
     console.log("ApplicationIconBadgeNumber:" + num);
 });
