@@ -216,10 +216,11 @@ handleAliyunPushMessage = (e) => {
 
 ```
 
-阿里云SDK接口封装
+## 阿里云SDK接口封装
 详细参数说明请参考阿里云移动推送SDK [[android版]](https://help.aliyun.com/document_detail/30066.html?spm=5176.doc30064.6.643.Mu5vP0)    [[ios版]](https://help.aliyun.com/document_detail/42668.html?spm=5176.doc30066.6.649.VmzJfM)
 
 **获取deviceId**
+
 示例:
 ```
 AliyunPush.getDeviceId((deviceId)=>{
@@ -227,6 +228,7 @@ AliyunPush.getDeviceId((deviceId)=>{
 });
 ```
 **绑定账号**
+
 参数：
 - account 待绑定账号
 
@@ -243,6 +245,7 @@ AliyunPush.bindAccount(userId)
     });
 ```
 **解绑定账号**
+
 示例:
 ```
 AliyunPush.unbindAccount()
@@ -256,6 +259,7 @@ AliyunPush.unbindAccount()
     });
 ```
 **绑定标签**
+
 参数：
 - target 目标类型，1：本设备；2：本设备绑定账号；3：别名
 - tags 标签（数组输入）
@@ -274,6 +278,7 @@ AliyunPush.bindTag(1,["testtag1","testtag2"],"")
     });
 ```
 **解绑定标签**
+
 参数:
 - target 目标类型，1：本设备；2：本设备绑定账号；3：别名
 - tags 标签（数组输入）
@@ -292,6 +297,7 @@ AliyunPush.unbindTag(1,["testTag1"],"")
     });
 ```
 **查询当前Tag列表**
+
 参数:
 - target 目标类型，1：本设备
 
@@ -308,6 +314,7 @@ AliyunPush.listTags(1)
     });
 ```
 **添加别名**
+
 参数:
 - alias 要添加的别名
 
@@ -324,6 +331,7 @@ AliyunPush.addAlias("testAlias")
     });
 ```
 **删除别名**
+
 参数:
 - alias 要移除的别名
 
@@ -340,6 +348,7 @@ AliyunPush.removeAlias("testAlias")
     });
 ```
 **查询别名列表**
+
 示例:
 ```
 AliyunPush.listAliases()
@@ -353,6 +362,7 @@ AliyunPush.listAliases()
     });
 ```
 **设置桌面图标角标数字** (ios支持，android仅部分手机支持)
+
 参数:
 - num角标数字
 
@@ -361,6 +371,7 @@ AliyunPush.listAliases()
 AliyunPush.setApplicationIconBadgeNumber(5);
 ```
 **获取桌面图标角标数字** (ios支持，android仅部分手机支持)
+
 示例:
 ```
 AliyunPush.getApplicationIconBadgeNumber((num)=>{
