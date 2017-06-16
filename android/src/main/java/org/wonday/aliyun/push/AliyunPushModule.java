@@ -31,13 +31,16 @@ import com.facebook.common.logging.FLog;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.alibaba.sdk.android.push.CommonCallback;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class AliyunPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
     final ReactApplicationContext ctx;
+    private int badgeNumber;
 
     public AliyunPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.ctx = reactContext;
+        this.badgeNumber = 0;
         ctx.addLifecycleEventListener(this);
         AliyunPushMessageReceiver.ctx = reactContext;
 
@@ -55,13 +58,19 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
-    public void setApplicationIconBadgeNumber(int num, final Promise promise) {
-        promise.resolve("");
+    public void setApplicationIconBadgeNumber(int badgeNumber, final Promise promise) {
+        try {
+            ShortcutBadger.applyCount(this.ctx, badgeNumber);
+            this.badgeNumber = badgeNumber;
+            promise.resolve("");
+        } catch (Exception e){
+            promise.reject(e.getMessage());
+        }
     }
 
     @ReactMethod
     public void getApplicationIconBadgeNumber(Callback callback) {
-        callback.invoke(0);
+        callback.invoke(this.badgeNumber);
     }
 
     @ReactMethod

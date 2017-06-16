@@ -364,7 +364,7 @@ AliyunPush.listAliases()
 **设置桌面图标角标数字** (ios支持，android仅部分手机支持)
 
 参数:
-- num角标数字
+- num角标数字 如果要清除请设置0
 
 示例:
 ```

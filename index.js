@@ -92,7 +92,7 @@ export default class AliyunPush {
 
     };
 
-    static removListener = (callback) => {
+    static removeListener = (callback) => {
 
         AliyunPush._removeListener(callback, "aliyunPushReceived");
 
