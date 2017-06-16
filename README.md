@@ -3,7 +3,7 @@
 
 
 ## 前提
-使用本模块前提是注册过阿里云移动推送服务，注册过app并取得了appKey及appSecret, 如果要使用ios版还要向苹果公司申请证书并配置好阿里云上的设置。
+使用本组件前提是注册过阿里云移动推送服务，注册过app并取得了appKey及appSecret, 如果要使用ios版还要向苹果公司申请证书并配置好阿里云上的设置。
 这里不详细描述，请参考[阿里云移动推送文档](https://help.aliyun.com/document_detail/30054.html)
 ## 安装
 ```
@@ -198,12 +198,13 @@ componentWillUnmount() {
 handleAliyunPushMessage = (e) => {
 	console.log("Message Received. " + JSON.stringify(e));
 
-	//
+
 	//e结构说明:
 	//e.type: "notification":通知 或者 "message":消息
 	//e.title: 推送通知/消息标题
 	//e.body: 推送通知/消息具体内容
 	//e.actionIdentifier: "opened":用户点击了通知, "removed"用户删除了通知, 其他非空值:用户点击了自定义action（仅限ios）
+	//e.extras: 用户附加的{key:value}的对象
 
 };
 
