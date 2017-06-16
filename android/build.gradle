@@ -37,4 +37,5 @@ dependencies {
     compile "com.aliyun.ams:alicloud-android-push:3.0.7@aar"
     compile "com.aliyun.ams:alicloud-android-utdid:1.1.5.3"
     compile "com.aliyun.ams:alicloud-android-ut:5.0.0"
+    compile 'com.aliyun.ams:alicloud-android-third-push:3.0.2@aar'
 }
