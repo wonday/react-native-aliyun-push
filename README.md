@@ -198,118 +198,118 @@ componentWillUnmount() {
 handleAliyunPushMessage = (e) => {
 	console.log("Message Received. " + JSON.stringify(e));
 
+	//
+	//e结构说明:
+	//e.type: "notification":通知 或者 "message":消息
+	//e.title: 推送通知/消息标题
+	//e.body: 推送通知/消息具体内容
+	//e.actionIdentifier: "opened":用户点击了通知, "removed"用户删除了通知, 其他非空值:用户点击了自定义action（仅限ios）
 
-	if (e.extras) {
-		if (e.extras.action1) {
-			let {navigator} = this.props;
-			UrlNavigator.push(navigator, e.extras.action1);
-		}
-	}
 };
 
 ```
 
-阿里云SDK其他接口封装
-详细参数请参考阿里云移动推送SDK [android版](https://help.aliyun.com/document_detail/30066.html?spm=5176.doc30064.6.643.Mu5vP0)    [ios版](https://help.aliyun.com/document_detail/42668.html?spm=5176.doc30066.6.649.VmzJfM)
+阿里云SDK接口封装
+详细参数说明请参考阿里云移动推送SDK [[android版]](https://help.aliyun.com/document_detail/30066.html?spm=5176.doc30064.6.643.Mu5vP0)    [[ios版]](https://help.aliyun.com/document_detail/42668.html?spm=5176.doc30066.6.649.VmzJfM)
 ```
-        //获取deviceId
-        AliyunPush.getDeviceId((deviceId)=>{
-            console.log("AliyunPush DeviceId:" + deviceId);
-        });
-        
-        //绑定账号
-        AliyunPush.bindAccount(userId)
-            .then((data)=>{
-                console.log("bindAccount success");
-                console.log(JSON.stringify(data));
-            })
-            .catch((error)=>{
-                console.log("bindAccount error");
-                console.log(JSON.stringify(error));
-            });
-        
-        //解绑定账号
-        AliyunPush.unbindAccount()
-            .then((result)=>{
-                console.log("unbindAccount success");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("bindAccount error");
-                console.log(JSON.stringify(error));
-            });
-            
-        //绑定Tag
-        AliyunPush.bindTag(1,["testtag1","testtag2"],"")
-            .then((result)=>{
-                console.log("bindTag success");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("bindTag error");
-                console.log(JSON.stringify(error));
-            });
+//获取deviceId
+AliyunPush.getDeviceId((deviceId)=>{
+    console.log("AliyunPush DeviceId:" + deviceId);
+});
 
-        //解绑定Tag
-        AliyunPush.unbindTag(1,["testTag1"],"")
-            .then((result)=>{
-                console.log("unbindTag succcess");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("unbindTag error");
-                console.log(JSON.stringify(error));
-            });
+//绑定账号
+AliyunPush.bindAccount(userId)
+    .then((data)=>{
+        console.log("bindAccount success");
+        console.log(JSON.stringify(data));
+    })
+    .catch((error)=>{
+        console.log("bindAccount error");
+        console.log(JSON.stringify(error));
+    });
 
-        //查询当前Tag列表
-        AliyunPush.listTags(1)
-            .then((result)=>{
-                console.log("listTags success");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("listTags error");
-                console.log(JSON.stringify(error));
-            });
+//解绑定账号
+AliyunPush.unbindAccount()
+    .then((result)=>{
+        console.log("unbindAccount success");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("bindAccount error");
+        console.log(JSON.stringify(error));
+    });
+    
+//绑定Tag
+AliyunPush.bindTag(1,["testtag1","testtag2"],"")
+    .then((result)=>{
+        console.log("bindTag success");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("bindTag error");
+        console.log(JSON.stringify(error));
+    });
 
-        //添加别名
-        AliyunPush.addAlias("testAlias")
-            .then((result)=>{
-                console.log("addAlias success");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("addAlias error");
-                console.log(JSON.stringify(error));
-            });
+//解绑定Tag
+AliyunPush.unbindTag(1,["testTag1"],"")
+    .then((result)=>{
+        console.log("unbindTag succcess");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("unbindTag error");
+        console.log(JSON.stringify(error));
+    });
 
-        //删除别名
-        AliyunPush.removeAlias("testAlias")
-            .then((result)=>{
-                console.log("removeAlias success");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("removeAlias error");
-                console.log(JSON.stringify(error));
-            });
+//查询当前Tag列表
+AliyunPush.listTags(1)
+    .then((result)=>{
+        console.log("listTags success");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("listTags error");
+        console.log(JSON.stringify(error));
+    });
 
-        //查询别名列表
-        AliyunPush.listAliases()
-            .then((result)=>{
-                console.log("listAliases success");
-                console.log(JSON.stringify(result));
-            })
-            .catch((error)=>{
-                console.log("listAliases error");
-                console.log(JSON.stringify(error));
-            });
-            
-        //设置桌面图标角标数字
-        AliyunPush.setApplicationIconBadgeNumber(5);
+//添加别名
+AliyunPush.addAlias("testAlias")
+    .then((result)=>{
+        console.log("addAlias success");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("addAlias error");
+        console.log(JSON.stringify(error));
+    });
 
-        //获取桌面图标角标数字
-        AliyunPush.getApplicationIconBadgeNumber((num)=>{
-            console.log("ApplicationIconBadgeNumber:" + num);
-        });
+//删除别名
+AliyunPush.removeAlias("testAlias")
+    .then((result)=>{
+        console.log("removeAlias success");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("removeAlias error");
+        console.log(JSON.stringify(error));
+    });
+
+//查询别名列表
+AliyunPush.listAliases()
+    .then((result)=>{
+        console.log("listAliases success");
+        console.log(JSON.stringify(result));
+    })
+    .catch((error)=>{
+        console.log("listAliases error");
+        console.log(JSON.stringify(error));
+    });
+    
+//设置桌面图标角标数字(ios支持，android仅部分手机支持)
+AliyunPush.setApplicationIconBadgeNumber(5);
+
+//获取桌面图标角标数字(ios支持，android仅部分手机支持)
+AliyunPush.getApplicationIconBadgeNumber((num)=>{
+    console.log("ApplicationIconBadgeNumber:" + num);
+});
 ```
