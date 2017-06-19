@@ -25,6 +25,9 @@ allprojects {
         maven {
             url "http://maven.aliyun.com/nexus/content/repositories/releases/"
         }
+        flatDir {
+            dirs project(':react-native-aliyun-push').file('libs')
+        }
         // 添加结束
     }
 }
@@ -83,7 +86,7 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
   private void initCloudChannel() {
     PushServiceFactory.init(this.getApplicationContext());
     CloudPushService pushService = PushServiceFactory.getCloudPushService();
-    pushService.setNotificationSmallIcon(R.mipmap.ic_launcher);
+    pushService.setNotificationSmallIcon(R.mipmap.ic_launcher_s);//设置通知栏小图标， 需要自行添加
     pushService.register(this.getApplicationContext(), "阿里云appKey", "阿里云appSecret", new CommonCallback() {
       @Override
       public void onSuccess(String responnse) {
