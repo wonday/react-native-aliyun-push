@@ -8,11 +8,17 @@
 
 package org.wonday.aliyun.push;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import android.content.BroadcastReceiver;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
-
+import android.content.Context;
+import android.os.Handler;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -33,9 +39,13 @@ import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.alibaba.sdk.android.push.CommonCallback;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import org.wonday.aliyun.push.MIUIUtils;
+
 public class AliyunPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
     final ReactApplicationContext ctx;
     private int badgeNumber;
+    private NotificationManager mNotificationManager;
+    private static int notificationId;
 
     public AliyunPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -43,6 +53,8 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
         this.badgeNumber = 0;
         ctx.addLifecycleEventListener(this);
         AliyunPushMessageReceiver.ctx = reactContext;
+        mNotificationManager = null;
+        notificationId = 0;
 
     }
 
@@ -59,13 +71,40 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
 
     @ReactMethod
     public void setApplicationIconBadgeNumber(int badgeNumber, final Promise promise) {
-        try {
-            ShortcutBadger.applyCount(this.ctx, badgeNumber);
-            this.badgeNumber = badgeNumber;
-            promise.resolve("");
-        } catch (Exception e){
-            promise.reject(e.getMessage());
+
+        if (MIUIUtils.isMIUI()) { //小米特殊处理
+            FLog.d(ReactConstants.TAG, "setApplicationIconBadgeNumber for xiaomi");
+
+            if (badgeNumber==0) {
+                promise.resolve("");
+                return;
+            }
+
+            try {
+
+                MIUIUtils.setBadgeNumber(this.ctx, getCurrentActivity().getClass(), badgeNumber);
+                this.badgeNumber = badgeNumber;
+                promise.resolve("");
+
+            } catch (Exception e) {
+
+                promise.reject(e.getMessage());
+
+            }
+
+
+        } else {
+            FLog.d(ReactConstants.TAG, "setApplicationIconBadgeNumber for normal");
+
+            try {
+                ShortcutBadger.applyCount(this.ctx, badgeNumber);
+                this.badgeNumber = badgeNumber;
+                promise.resolve("");
+            } catch (Exception e){
+                promise.reject(e.getMessage());
+            }
         }
+
     }
 
     @ReactMethod
