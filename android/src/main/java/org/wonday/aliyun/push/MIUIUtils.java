@@ -43,6 +43,10 @@ public class MIUIUtils {
     private static boolean hasChecked = false;
     private static boolean isMIUI = false;
 
+    // 通知ID
+    private static int notificationId = (int)(System.currentTimeMillis()/1000);
+
+
     public static boolean isMIUI() {
         if(hasChecked)
         {
@@ -68,119 +72,35 @@ public class MIUIUtils {
         return isMIUI;
     }
 
-    /*
-     * 由于Notification.when不起作用，故需要延时操作时采用postAtTime(Runnable r, Object token, long uptimeMillis)
-     * 其中token用来标记该runnable，以便后面取消用
-     * 注意：如果到了触发通知时，应用程序不在后台运行，则不会弹出通知，即app必须处于运行状态才有效
-     */
-    private static boolean initialized = false;
-    private static Handler mHandler;
-    private static int notificationId = (int)(System.currentTimeMillis()/1000);
-    private static int requestCount = 0;
 
-    public static void setBadgeNumber(Context context, Class<?> cls, int badgeNumber) throws Exception{
-        getHandler().removeCallbacksAndMessages(Integer.toString(notificationId));
-        registerLocalNotification(context, cls, badgeNumber);
-    }
+    //小米角标特殊处理
+    public static void setBadgeNumber(Context context, Class<?> cls, int badgeNumber) {
+            try {
 
-    private static Handler getHandler() {
-        if (!initialized) {
-            initialized = true;
-            HandlerThread thread = new HandlerThread("Notifier");
-            thread.start();
-            mHandler = new Handler(thread.getLooper());
-        }
-        return mHandler;
-    }
+                Intent intent = new Intent(context, cls);
+                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-    private static void registerLocalNotification(final Context context, Class<?> cls, int badgeNumber) throws Exception{
+                Notification.Builder builder = new Notification.Builder(context)
+                                    .setContentTitle(context.getString(R.string.app_name))
+                                    .setContentText("您有"+Integer.toString(badgeNumber)+"条未读消息")
+                                    .setWhen(System.currentTimeMillis())
+                                    .setContentIntent(contentIntent)
+                                    .setSmallIcon(android.R.drawable.stat_notify_chat);
 
-        FLog.e(ReactConstants.TAG, "MIUIUtils:registerLocalNotification");
+                final Notification notification = builder.build();
 
-        Intent intent = new Intent(context, cls);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                Field field = notification.getClass().getDeclaredField("extraNotification");
+                Object extraNotification = field.get(notification);
+                Method method = extraNotification.getClass().getDeclaredMethod("setMessageCount", int.class);
+                method.invoke(extraNotification, badgeNumber);
 
-        Notification.Builder builder = new Notification.Builder(context)
-                            .setContentTitle(context.getString(R.string.app_name))
-                            .setContentText("您有"+Integer.toString(badgeNumber)+"条未读消息")
-                            .setWhen(System.currentTimeMillis())
-                            .setContentIntent(contentIntent)
-                            .setSmallIcon(android.R.drawable.stat_notify_chat);
+                NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        final Notification notification = builder.build();
+                notificationManager.cancelAll();
+                notificationManager.notify(notificationId++, notification);
 
-        Field field = notification.getClass().getDeclaredField("extraNotification");
-        Object extraNotification = field.get(notification);
-        Method method = extraNotification.getClass().getDeclaredMethod("setMessageCount", int.class);
-        method.invoke(extraNotification, badgeNumber);
+            } catch (Exception e) {
 
-        requestCount++;
-
-        getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                FLog.e(ReactConstants.TAG, "MIUIUtils:registerLocalNotification run...");
-                requestCount--;
-
-                if (isAppOnBackground(context)) {
-                    FLog.e(ReactConstants.TAG, "MIUIUtils:registerLocalNotification notified.");
-
-                    //getNotificationManager(context).cancel(notificationId);
-                    getNotificationManager(context).cancelAll();
-                    getNotificationManager(context).notify(notificationId++, notification);
-                    return;
-                }
-
-                // 非后台时会到此
-                // requestCount>0 表明已经有新的请求， 本次废弃， 否则再次请求执行
-                if (requestCount==0){
-                    requestCount++;
-                    getHandler().postDelayed(this, 1000);
-                }
             }
-        });
     }
-
-    private static NotificationManager getNotificationManager(Context context) {
-        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    }
-
-/*
-    private static boolean isAppOnBackground(Context context) {
-        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        for (RunningAppProcessInfo appProcess : appProcesses) {
-            if (appProcess.processName.equals(context.getPackageName())) {
-                if (appProcess.importance == RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    FLog.i(ReactConstants.TAG, "MIUIUtils:isAppOnBackground() true");
-                    return true;
-                } else {
-                    FLog.i(ReactConstants.TAG, "MIUIUtils:isAppOnBackground() false");
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
-*/
-     /**
-      *判断当前应用程序处于前台还是后台
-      *
-      * @param context
-      * @return
-
-      */
-
-     public static boolean isAppOnBackground(final Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<RunningTaskInfo> tasks = am.getRunningTasks(1);
-        if (!tasks.isEmpty()) {
-            ComponentName topActivity = tasks.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                return true;
-            }
-        }
-
-        return false;
-     }
 }

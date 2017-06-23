@@ -40,18 +40,15 @@ import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
 
 public class AliyunPushMessageReceiver extends MessageReceiver {
-    public static ReactApplicationContext ctx;
+    public static ReactApplicationContext context;
+    public static AliyunPushMessageReceiver instance;
 
     private final String ALIYUN_PUSH_TYPE_MESSAGE = "message";
     private final String ALIYUN_PUSH_TYPE_NOTIFICATION = "notification";
 
-    public AliyunPushMessageReceiver(ReactApplicationContext reactContext) {
-        super();
-        ctx = reactContext;
-    }
-
     public AliyunPushMessageReceiver() {
         super();
+        instance = this;
     }
 
     @Override
@@ -139,7 +136,7 @@ public class AliyunPushMessageReceiver extends MessageReceiver {
     }
 
     @Override
-    protected void onNotificationReceivedInApp(Context context, String title, String content, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
+    public void onNotificationReceivedInApp(Context context, String title, String content, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
         FLog.d(ReactConstants.TAG, "onNotificationReceivedInApp");
 
         super.onNotificationReceivedInApp(context, title, content, extraMap, openType, openActivity, openUrl);
@@ -163,10 +160,10 @@ public class AliyunPushMessageReceiver extends MessageReceiver {
     }
 
     private void sendEvent(String eventName, @Nullable WritableMap params) {
-        if (ctx == null) {
+        if (context == null) {
             FLog.d(ReactConstants.TAG, "reactContext==null");
         }else{
-            ctx.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, params);
         }
     }
