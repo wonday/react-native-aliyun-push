@@ -103,11 +103,16 @@ export default class AliyunPush {
         var key = getKey(callback,type);
         listeners[key] = LocalEventEmitter.addListener(type,
             (e) => {
-
                 // convert json string to obj
                 if (e.extraStr) {
                     let extras = JSON.parse(e.extraStr);
                     if (extras) {
+                        if (extras.badge) {
+                            let badgeNumber = parseInt(extras.badge);
+                            if (!isNaN(badgeNumber)) {
+                                AliyunPush.setApplicationIconBadgeNumber(badgeNumber);
+                            }
+                        }
                         e.extras = extras;
                     }
                     delete e.extraStr;
