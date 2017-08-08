@@ -365,7 +365,7 @@ AliyunPush.listAliases()
         console.log(JSON.stringify(error));
     });
 ```
-**设置桌面图标角标数字** (ios支持，android仅部分手机支持)
+**设置桌面图标角标数字** (ios支持，android支持绝大部分手机)
 
 参数:
 - num角标数字，如果要清除请设置0
@@ -374,7 +374,7 @@ AliyunPush.listAliases()
 ```
 AliyunPush.setApplicationIconBadgeNumber(5);
 ```
-**获取桌面图标角标数字** (ios支持，android仅部分手机支持)
+**获取桌面图标角标数字** (ios支持，android支持绝大部分手机)
 
 示例:
 ```
