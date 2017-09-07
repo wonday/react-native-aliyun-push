@@ -2,6 +2,17 @@
 [阿里云移动推送](https://www.aliyun.com/product/cps?spm=5176.2020520107.0.0.fgXGFp)react-native封装组件
 
 
+### 修改履历
+
+v1.0.1
+
+1. 设置badgeNumber时，增加对badgeNumber判断，避免小米上显示0条消息未读
+
+v1.0.0
+
+1. 初始发布
+
+
 ## 前提
 使用本组件前提是注册过阿里云移动推送服务，注册过app并取得了appKey及appSecret, 如果要使用ios版还要向苹果公司申请证书并配置好阿里云上的设置。
 这里不详细描述，请参考[阿里云移动推送文档](https://help.aliyun.com/document_detail/30054.html)
