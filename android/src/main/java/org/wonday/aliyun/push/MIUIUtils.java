@@ -75,6 +75,10 @@ public class MIUIUtils {
 
     //小米角标特殊处理
     public static void setBadgeNumber(Context context, Class<?> cls, int badgeNumber) {
+
+            //避免显示0条消息
+            if (badgeNumber<=0) return;
+
             try {
 
                 Intent intent = new Intent(context, cls);
