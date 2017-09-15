@@ -495,7 +495,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
         
         // 用户动作
-        notificationDict[@"actionIdentifier"] = @"open";
+        notificationDict[@"actionIdentifier"] = @"opened";
         
     } else if([response.actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) {
         
