@@ -4,6 +4,10 @@
 
 ### 修改履历
 
+v1.0.2
+
+1. 修正ios上actionIdentifier错误,"open"->"opened" #5
+
 v1.0.1
 
 1. 设置badgeNumber时，增加对badgeNumber判断，避免小米上显示0条消息未读
