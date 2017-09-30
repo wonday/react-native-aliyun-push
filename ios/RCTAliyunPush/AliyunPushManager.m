@@ -92,7 +92,9 @@ RCT_EXPORT_MODULE(AliyunPush);
  */
 RCT_EXPORT_METHOD(setApplicationIconBadgeNumber:(NSInteger)number)
 {
-    RCTSharedApplication().applicationIconBadgeNumber = number;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        RCTSharedApplication().applicationIconBadgeNumber = number;
+    });
 }
 
 /**
@@ -123,7 +125,7 @@ RCT_EXPORT_METHOD(bindAccount:(NSString *)account
         if (res.success) {
             resolve(@"");
         } else {
-            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+            reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
         }
     }];
 }
@@ -139,7 +141,7 @@ RCT_EXPORT_METHOD(unbindAccount:(RCTPromiseResolveBlock)resolve
         if (res.success) {
             resolve(@"");
         } else {
-            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+            reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
         }
     }];
 }
@@ -159,7 +161,7 @@ RCT_EXPORT_METHOD(bindTag:(int)target
                  if (res.success) {
                      resolve(@"");
                  } else {
-                     reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+                     reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
                  }
              }];
 }
@@ -181,7 +183,7 @@ RCT_EXPORT_METHOD(unbindTag:(int)target
                    if (res.success) {
                        resolve(@"");
                    } else {
-                       reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+                       reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
                    }
                }];
 }
@@ -199,7 +201,7 @@ RCT_EXPORT_METHOD(listTags:(int)target
                   if (res.success) {
                       resolve(res.data);
                   } else {
-                      reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+                      reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
                   }
              }];
 }
@@ -215,7 +217,7 @@ RCT_EXPORT_METHOD(addAlias:(NSString *)alias
         if (res.success) {
             resolve(@"");
         } else {
-            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+            reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
         }
     }];
 }
@@ -232,7 +234,7 @@ RCT_EXPORT_METHOD(removeAlias:(NSString *)alias
         if (res.success) {
             resolve(@"");
         } else {
-            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+            reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
         }
     }];
 }
@@ -248,7 +250,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
         if (res.success) {
             resolve(res.data);
         } else {
-            reject([NSString stringWithFormat:@"%ld",res.error.code], res.error.localizedDescription,res.error);
+            reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
         }
     }];
 }
@@ -269,7 +271,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
  @param launchOptions app launch Options
  @param createNotificationCategoryHandler callback for create user's customized notification category
  */
-- (void)setParams:(NSString *)appKey appSecret:(NSString *)appSecret lauchOptions:(NSDictionary *)launchOptions createNotificationCategoryHandler:(void (^)())createNotificationCategoryHandler
+- (void)setParams:(NSString *)appKey appSecret:(NSString *)appSecret lauchOptions:(NSDictionary *)launchOptions createNotificationCategoryHandler:(void (^)(void))createNotificationCategoryHandler
 {
     
     // APNs注册，获取deviceToken并上报
@@ -322,7 +324,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
  *	向APNs注册，获取deviceToken用于推送
  *
  */
-- (void)registerAPNs:(void (^)())createNotificationCategoryHandler
+- (void)registerAPNs:(void (^)(void))createNotificationCategoryHandler
 {
     float systemVersionNum = [[[UIDevice currentDevice] systemVersion] floatValue];
     if (systemVersionNum >= 10.0) {
@@ -341,8 +343,11 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
             if (granted) {
                 // granted
                 DLog(@"User authored notification.");
-                // 向APNs注册，获取deviceToken
-                [[UIApplication sharedApplication] registerForRemoteNotifications];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // 向APNs注册，获取deviceToken
+                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                });
+                
             } else {
                 // not granted
                 DLog(@"User denied notification.");
@@ -460,7 +465,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
 /**
  *  触发通知动作时回调，比如点击、删除通知和点击自定义action(iOS 10+)
  */
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
 {
     DLog(@"Open/delete a notification.");
     
