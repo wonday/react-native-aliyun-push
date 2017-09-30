@@ -4,9 +4,14 @@
 
 ### 修改履历
 
+v1.0.3
+
+1. 修正iOS上xcode9编译警告 #6 
+2. iOS版本工程文件升级为xcode9格式
+
 v1.0.2
 
-1. 修正ios上actionIdentifier错误,"open"->"opened" #5
+1. 修正iOS上actionIdentifier错误,"open"->"opened" #5 
 
 v1.0.1
 
