@@ -134,7 +134,7 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
 
 2. 添加阿里云移动推送SDK
 
-拖拽node_modules/react-native-aliyun-push/ios/libs下列目录到xcode工程，将```copy items if needed```打勾。
+拖拽node_modules/react-native-aliyun-push/ios/libs下列目录到xcode工程的```frameworks```目录下，将```copy items if needed```打勾。
 注意：从阿里云下载的SDK中UTDID.framework有问题，编译会报错，请使用react-native-aliyun-push中内置的版本。
 
 - AlicloudUtils.framework
