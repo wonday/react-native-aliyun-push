@@ -7,7 +7,7 @@
  */
 
 'use strict';
-import React,{ Component, PropTypes } from 'react';
+import React,{ Component } from 'react';
 import {
     requireNativeComponent,
 } from 'react-native';
