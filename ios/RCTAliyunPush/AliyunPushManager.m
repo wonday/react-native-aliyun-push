@@ -45,6 +45,10 @@ NSString *const ALIYUN_PUSH_TYPE_NOTIFICATION = @"notification";
 
 static AliyunPushManager * sharedInstance = nil;
 
++ (BOOL)requiresMainQueueSetup {
+    return YES;
+}
+
 #pragma mark singleton instance method
 + (id)allocWithZone:(NSZone *)zone {
     static AliyunPushManager *sharedInstance = nil;
