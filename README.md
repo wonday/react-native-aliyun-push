@@ -4,6 +4,11 @@
 
 ### 修改履历
 
+
+v1.0.4
+
+1. 删除对PropTypes的import #8
+
 v1.0.3
 
 1. 修正iOS上xcode9编译警告 #6 
