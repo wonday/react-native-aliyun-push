@@ -34,10 +34,12 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.facebook.react:react-native:+"
-    compile "com.aliyun.ams:alicloud-android-push:3.0.7@aar"
+    compile "com.aliyun.ams:alicloud-android-push:3.1.0@aar"
+    compile 'com.aliyun.ams:alicloud-android-utils:1.1.1'
+    compile 'com.aliyun.ams:alicloud-android-beacon:1.0.1'
     compile "com.aliyun.ams:alicloud-android-utdid:1.1.5.3"
     compile "com.aliyun.ams:alicloud-android-ut:5.0.0"
-//    compile "com.aliyun.ams:alicloud-android-third-push:3.0.2@aar"
+    //compile "com.aliyun.ams:alicloud-android-third-push:3.0.2@aar"
     compile(name:'third-push-support-3.0.2', ext:'aar')
     compile "me.leolin:ShortcutBadger:1.1.17@aar"
 }
