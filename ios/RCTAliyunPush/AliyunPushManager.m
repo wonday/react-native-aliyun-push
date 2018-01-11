@@ -477,7 +477,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
     UNNotificationContent *content = request.content;
     NSDictionary *userInfo = content.userInfo;
     
-    NSMutableDictionary *notificationDict = [NSMutableDictionary dictionaryWithCapacity:5];
+    NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
     
     // 通知时间
     notificationDict[@"date"] = response.notification.date;
@@ -539,7 +539,7 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
     // 取得APNS通知内容
     NSDictionary *aps = [userInfo valueForKey:@"aps"];
     
-    NSMutableDictionary *notificationDict = [NSMutableDictionary dictionaryWithCapacity:5];
+    NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
     
     // 通知时间
     notificationDict[@"date"] = [NSDate init];
