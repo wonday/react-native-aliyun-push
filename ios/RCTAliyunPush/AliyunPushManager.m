@@ -619,10 +619,19 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
 {
     DLog(@"onMessageReceived.");
     
-    NSMutableDictionary *notificationDict = [notification object];
+    NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
     
+    CCPSysMessage *message = [notification object];
+    
+    notificationDict[@"title"] = [[NSString alloc] initWithData:message.title encoding:NSUTF8StringEncoding];
+    notificationDict[@"body"] = [[NSString alloc] initWithData:message.body encoding:NSUTF8StringEncoding];
     // 取得通知自定义字段内容
-    notificationDict[@"extras"] = [notification userInfo];
+    if (notification.userInfo) {
+        notificationDict[@"extras"] = notification.userInfo;
+    } else {
+        notificationDict[@"extras"] = @{};
+    }
+    
     
     // 类型 “notification” or "message"
     notificationDict[@"type"] = ALIYUN_PUSH_TYPE_MESSAGE;
