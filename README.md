@@ -150,6 +150,7 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
 - AlicloudUtils.framework
 - CloudPushSDK.framework
 - UTDID.framework
+- UTMini.framework
 
 3. 点击项目根节点，在targets app的属性BuildPhase的Link Binary With Libraries中添加公共包依赖
 
