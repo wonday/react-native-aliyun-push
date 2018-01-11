@@ -161,7 +161,7 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
 - UTDID.framework
 - UTMini.framework
 
-3. 点击项目根节点，在targets app的属性BuildPhase的Link Binary With Libraries中添加公共包依赖
+3. 点击项目根节点，在targets app的BuildPhase的Link Binary With Libraries中添加公共包依赖
 
 - libz.tbd
 - libresolv.tbd
@@ -169,6 +169,12 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
 - CoreTelephony.framework
 - SystemConfiguration.framework
 - UserNotifications.framework
+
+同时确保targets app的BuildPhase的Link Binary With Libraries包含
+- AlicloudUtils.framework
+- CloudPushSDK.framework
+- UTDID.framework
+- UTMini.framework
 
 4. 修改AppDelegate.m添加如下代码
 ```
