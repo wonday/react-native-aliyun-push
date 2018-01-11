@@ -6,6 +6,11 @@
 
 ### 修改履历
 
+v1.0.6
+
+1. 升级阿里云移动推送SDK
+2. 修复ios推送消息导致signal SIGABRT的bug
+
 v1.0.5
 
 1. .npmignore中添加.git
