@@ -6,6 +6,10 @@
 
 ### 修改履历
 
+v1.0.7
+
+1. 修正android permission setting位置错误
+
 v1.0.6
 
 1. 升级阿里云移动推送SDK
