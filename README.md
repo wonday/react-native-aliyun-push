@@ -6,6 +6,10 @@
 
 ### 修改履历
 
+v1.0.8
+
+1. 修正app退出后，收到通知，点击通知后app闪退
+
 v1.0.7
 
 1. 修正android permission setting位置错误

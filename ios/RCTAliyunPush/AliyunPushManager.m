@@ -648,7 +648,10 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
         DLog(@"key: %@ value: %@", key, notification[key]);
     }
     
-    [self sendEventWithName:@"aliyunPushReceived" body:notification];
+    //是否在前台判断，在前台才可以发送Event
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        [self sendEventWithName:@"aliyunPushReceived" body:notification];
+    }
 }
 
 @end
