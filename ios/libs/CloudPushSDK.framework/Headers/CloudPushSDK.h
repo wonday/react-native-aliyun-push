@@ -11,9 +11,17 @@
 #import "MPGerneralDefinition.h"
 
 /* SDK版本号 */
-#define MPUSH_IOS_SDK_VERSION @"1.9.6"
+#define MPUSH_IOS_SDK_VERSION @"1.9.8"
 
 @interface CloudPushSDK : NSObject
+
+/**
+ Push SDK初始化
+ 无需手动配置appKey/appSecret
+
+ @param callback 回调
+ */
++ (void)autoInit:(CallbackHandler)callback;
 
 /**
  *	Push SDK初始化
