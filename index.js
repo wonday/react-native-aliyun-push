@@ -54,6 +54,13 @@ export default class AliyunPush {
         AliyunPushNative.setApplicationIconBadgeNumber(num);
     }
 
+    static syncBadgeNum = (num) =>{
+        if(Platform.OS === 'android'){
+            return;
+        }
+        AliyunPushNative.syncBadgeNum(num);
+    }
+
     static bindAccount = (account) => {
         return AliyunPushNative.bindAccount(account);
     }
