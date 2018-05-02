@@ -664,8 +664,9 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
         DLog(@"key: %@ value: %@", key, notification[key]);
     }
     
-    //是否在前台判断，在前台才可以发送Event
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    //修正app退出后，点击通知会闪退bug
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive
+        ||[UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
         [self sendEventWithName:@"aliyunPushReceived" body:notification];
     }
 }
