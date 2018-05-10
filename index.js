@@ -9,7 +9,7 @@
 'use strict';
 import React,{ Component } from 'react';
 import {
-    requireNativeComponent,
+    requireNativeComponent,Platform
 } from 'react-native';
 
 const AliyunPushNative = require('react-native').NativeModules.AliyunPush;
@@ -52,6 +52,13 @@ export default class AliyunPush {
 
     static setApplicationIconBadgeNumber = (num) => {
         AliyunPushNative.setApplicationIconBadgeNumber(num);
+    }
+
+    static syncBadgeNum = (num) =>{
+        if(Platform.OS === 'android'){
+            return;
+        }
+        AliyunPushNative.syncBadgeNum(num);
     }
 
     static bindAccount = (account) => {

@@ -110,6 +110,22 @@ RCT_EXPORT_METHOD(getApplicationIconBadgeNumber:(RCTResponseSenderBlock)callback
 }
 
 /**
+ * sync badge number to the server
+ */
+RCT_EXPORT_METHOD(syncBadgeNum:(NSInteger) num
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    [CloudPushSDK syncBadgeNum:num withCallback:^(CloudPushCallbackResult *res){
+        if (res.success) {
+            resolve(@"");
+        } else {
+            reject([NSString stringWithFormat:@"%ld",(long)res.error.code], res.error.localizedDescription,res.error);
+        }
+    }];
+}
+
+/**
  * Get the aliyun push device id
  */
 RCT_EXPORT_METHOD(getDeviceId:(RCTResponseSenderBlock)callback)
