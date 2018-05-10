@@ -7,9 +7,9 @@
  */
 
 'use strict';
-import React,{ Component,Platform } from 'react';
+import React,{ Component } from 'react';
 import {
-    requireNativeComponent,
+    requireNativeComponent,Platform
 } from 'react-native';
 
 const AliyunPushNative = require('react-native').NativeModules.AliyunPush;
