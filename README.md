@@ -8,7 +8,8 @@
 
 v1.0.11
 
-1. 增加角标同步功能syncBadgeNum()
+1. 增加角标同步功能syncBadgeNum()（仅iOS支持）
+2. 增加是否开启通知判断函数getAuthorizationStatus() (仅iOS10.0支持)
 
 v1.0.10
 
@@ -452,4 +453,12 @@ AliyunPush.getApplicationIconBadgeNumber((num)=>{
 示例:
 ```
 AliyunPush.syncBadgeNum(5);
+```
+**获取用户是否开启通知设定** (ios 10.0+支持)
+
+示例:
+```
+AliyunPush.getAuthorizationStatus((result)=>{
+    console.log("AuthorizationStatus:" + result);
+});
 ```

@@ -275,6 +275,26 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
     }];
 }
 
+/**
+ * 主动获取设备通知是否授权
+ */
+RCT_EXPORT_METHOD(getAuthorizationStatus:(RCTResponseSenderBlock)callback)
+{
+    float systemVersionNum = [[[UIDevice currentDevice] systemVersion] floatValue];
+    if (systemVersionNum >= 10.0) {
+        UNUserNotificationCenter *_notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+        [_notificationCenter getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
+                callback(@[@(TRUE)]);
+            } else {
+                callback(@[@(FALSE)]);
+            }
+        }];
+    } else {
+        callback(@[@(TRUE)]);
+    }
+}
+
 #pragma mark
 - (NSArray<NSString *> *)supportedEvents
 {
@@ -410,22 +430,6 @@ RCT_EXPORT_METHOD(listAliases:(RCTPromiseResolveBlock)resolve
     }];
     
 }
-
-/**
- *  主动获取设备通知是否授权(iOS 10+)
- */
-+ (void)getNotificationSettingStatus
-{
-    UNUserNotificationCenter *_notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
-    [_notificationCenter getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-        if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
-            DLog(@"User authed.");
-        } else {
-            DLog(@"User denied.");
-        }
-    }];
-}
-
 
 /**
  *  App处于前台时收到通知(iOS 10+)

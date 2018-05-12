@@ -55,6 +55,13 @@ export default class AliyunPush {
         AliyunPushNative.setApplicationIconBadgeNumber(num);
     }
 
+    static syncBadgeNum = (num) => {
+        if(Platform.OS === 'android') {
+            return;
+        }
+        AliyunPushNative.syncBadgeNum(num);
+    }
+
     static bindAccount = (account) => {
         return AliyunPushNative.bindAccount(account);
     }
@@ -87,12 +94,17 @@ export default class AliyunPush {
         return AliyunPushNative.listAliases();
     }
 
-    static syncBadgeNum = (num) => {
+    static getAuthorizationStatus = (callback) => {
         if(Platform.OS === 'android') {
-            return;
+            // android always return true
+            callback(true);
+        } else {
+            AliyunPushNative.getAuthorizationStatus(function(args) {
+                callback(args);
+            });
         }
-        AliyunPushNative.syncBadgeNum(num);
     }
+
 
     static addListener = (callback) => {
 
