@@ -6,6 +6,10 @@
 
 ### 修改履历
 
+v1.0.11
+
+1. 增加角标同步功能syncBadgeNum()
+
 v1.0.10
 
 1. 升级阿里云SDK android v3.1.3, iOS v1.9.8
@@ -439,4 +443,13 @@ AliyunPush.setApplicationIconBadgeNumber(5);
 AliyunPush.getApplicationIconBadgeNumber((num)=>{
     console.log("ApplicationIconBadgeNumber:" + num);
 });
+```
+**同步角标数到阿里云服务端** (仅ios支持)
+
+参数:
+- num角标数字
+
+示例:
+```
+AliyunPush.syncBadgeNum(5);
 ```

@@ -10,6 +10,7 @@
 import React,{ Component } from 'react';
 import {
     requireNativeComponent,
+    Platform,
 } from 'react-native';
 
 const AliyunPushNative = require('react-native').NativeModules.AliyunPush;
@@ -84,6 +85,13 @@ export default class AliyunPush {
 
     static listAliases = () => {
         return AliyunPushNative.listAliases();
+    }
+
+    static syncBadgeNum = (num) => {
+        if(Platform.OS === 'android') {
+            return;
+        }
+        AliyunPushNative.syncBadgeNum(num);
     }
 
     static addListener = (callback) => {
