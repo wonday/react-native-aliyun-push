@@ -128,10 +128,24 @@ RCT_EXPORT_METHOD(syncBadgeNum:(NSInteger) num
 /**
  * Get the aliyun push device id
  */
-RCT_EXPORT_METHOD(getDeviceId:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getDeviceId:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSString *deviceId = [CloudPushSDK getDeviceId];
-    callback(@[deviceId]);
+    if (deviceId!=Nil) {
+        resolve(deviceId);
+    } else {
+        // 或许还没有初始化完成，等3秒钟再次尝试
+        [NSThread sleepForTimeInterval:3.0f];
+
+        deviceId = [CloudPushSDK getDeviceId];
+        if (deviceId!=Nil) {
+            resolve(deviceId);
+        } else {
+            reject([NSString stringWithFormat:@"getDeviceId() failed."], nil, RCTErrorWithMessage(@"getDeviceId() failed."));
+        }
+
+    }
 }
 
 /**

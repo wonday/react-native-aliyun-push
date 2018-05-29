@@ -6,6 +6,30 @@
 
 ### 修改履历
 
+v1.0.12
+1. getDeviceId()逻辑处理变更为一次取得失败后延迟三秒再次获取
+2. ```重要变更```getDeviceId()接口变更为Promise模式，使用旧版本需要升级代码。
+
+
+**v1.0.11及以前代码用法:**
+```
+AliyunPush.getDeviceId((deviceId)=>{
+    console.log("AliyunPush DeviceId:" + deviceId);
+});
+```
+
+**v1.0.12及以后代码用法:**
+```
+AliyunPush.getDeviceId()
+    .then((deviceId)=>{
+        //console.log("deviceId:"+deviceId);
+    })
+    .catch((error)=>{
+        console.log("getDeviceId() failed");
+    });
+```
+
+
 v1.0.11
 
 1. 增加角标同步功能syncBadgeNum()（仅iOS支持）
@@ -290,9 +314,13 @@ handleAliyunPushMessage = (e) => {
 
 示例:
 ```
-AliyunPush.getDeviceId((deviceId)=>{
-    console.log("AliyunPush DeviceId:" + deviceId);
-});
+AliyunPush.getDeviceId()
+    .then((deviceId)=>{
+        //console.log("deviceId:"+deviceId);
+    })
+    .catch((error)=>{
+        console.log("getDeviceId() failed");
+    });
 ```
 **绑定账号**
 

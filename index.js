@@ -39,10 +39,8 @@ function getKey(listener,type){
 
 export default class AliyunPush {
 
-    static getDeviceId = (callback) => {
-        AliyunPushNative.getDeviceId(function(args) {
-            callback(args);
-        });
+    static getDeviceId = () => {
+        return AliyunPushNative.getDeviceId();
     }
 
     static getApplicationIconBadgeNumber = (callback) => {

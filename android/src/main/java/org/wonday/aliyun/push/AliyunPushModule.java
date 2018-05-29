@@ -65,8 +65,26 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
-    public void getDeviceId(Callback callback) {
-        callback.invoke(PushServiceFactory.getCloudPushService().getDeviceId());
+    public void getDeviceId(final Promise promise) {
+        String deviceID = PushServiceFactory.getCloudPushService().getDeviceId();
+        if (deviceID!=null && deviceID.length()>0) {
+            promise.resolve(deviceID);
+        } else {
+            // 或许还没有初始化完成，等3秒钟再次尝试
+            try{
+                Thread.sleep(3000);
+                deviceID = PushServiceFactory.getCloudPushService().getDeviceId();
+
+                if (deviceID!=null && deviceID.length()>0) {
+                    promise.resolve(deviceID);
+                    return;
+                }
+            } catch (Exception e) {
+
+            }
+
+            promise.reject("getDeviceId() failed.");
+        }
     }
 
     @ReactMethod
