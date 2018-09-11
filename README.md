@@ -5,6 +5,14 @@
 
 
 ### 修改履历
+
+v1.0.14
+1. 修正ios未启动app点击通知提示不在主线程执行
+2. 升级ShortcutBadger v1.1.22
+3. 升级阿里云移动推送sdk android v3.1.4
+4. 支持android8.0推送通道设置(MainApplication中加入代码有更新，注意查看readme.MD历史确认代码变更点),[阿里云文档](https://help.aliyun.com/knowledge_detail/67398.html?accounttraceid=86ba30f0-d830-43ff-ae14-4a279fb43df5)
+
+
 v1.0.13
 1. 更新android build tool到v26.0.3
 
@@ -130,6 +138,13 @@ dependencies {
 4. 确保MainApplication.java中被添加如下代码
 ```
 // 下面是被添加的代码
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+
 import org.wonday.aliyun.push.AliyunPushPackage;
 
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -137,6 +152,7 @@ import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.alibaba.sdk.android.push.register.HuaWeiRegister;
 import com.alibaba.sdk.android.push.register.MiPushRegister;
+import com.alibaba.sdk.android.push.register.GcmRegister;
 // 添加结束
 ...
     @Override
@@ -153,7 +169,6 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
     
     //下面是添加的代码
     this.initCloudChannel();
@@ -166,6 +181,9 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
    * @param applicationContext
    */
   private void initCloudChannel() {
+
+    // 创建notificaiton channel
+    this.createNotificationChannel();
     PushServiceFactory.init(this.getApplicationContext());
     CloudPushService pushService = PushServiceFactory.getCloudPushService();
     pushService.setNotificationSmallIcon(R.mipmap.ic_launcher_s);//设置通知栏小图标， 需要自行添加
@@ -184,6 +202,33 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
     MiPushRegister.register(this.getApplicationContext(), "小米AppID", "小米AppKey");
     // 注册方法会自动判断是否支持华为系统推送，如不支持会跳过注册。
     HuaWeiRegister.register(this.getApplicationContext());
+    // 接入FCM/GCM初始化推送
+    GcmRegister.register(applicationContext, "send_id", "application_id"); 
+  }
+
+
+  private void createNotificationChannel() {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+          // 通知渠道的id
+          String id = "1";
+          // 用户可以看到的通知渠道的名字.
+          CharSequence name = "notification channel";
+          // 用户可以看到的通知渠道的描述
+          String description = "notification description";
+          int importance = NotificationManager.IMPORTANCE_HIGH;
+          NotificationChannel mChannel = new NotificationChannel(id, name, importance);
+          // 配置通知渠道的属性
+          mChannel.setDescription(description);
+          // 设置通知出现时的闪灯（如果 android 设备支持的话）
+          mChannel.enableLights(true);
+          mChannel.setLightColor(Color.RED);
+          // 设置通知出现时的震动（如果 android 设备支持的话）
+          mChannel.enableVibration(true);
+          mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+          //最后在notificationmanager中创建该通知渠道
+          mNotificationManager.createNotificationChannel(mChannel);
+      }
   }
   // 添加结束
 
