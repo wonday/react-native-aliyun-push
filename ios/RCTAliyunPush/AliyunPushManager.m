@@ -681,12 +681,16 @@ RCT_EXPORT_METHOD(getAuthorizationStatus:(RCTResponseSenderBlock)callback)
     for (NSString *key in notification) {
         DLog(@"key: %@ value: %@", key, notification[key]);
     }
-    
+
     //修正app退出后，点击通知会闪退bug
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive
-        ||[UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
-        [self sendEventWithName:@"aliyunPushReceived" body:notification];
-    }
+    AliyunPushManager* __weak weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //修正app退出后，点击通知会闪退bug
+        if([UIApplication sharedApplication].applicationState == UIApplicationStateActive
+           ||[UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
+            [weakSelf sendEventWithName:@"aliyunPushReceived" body:notification];
+        }
+    });
 }
 
 @end
