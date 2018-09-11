@@ -10,7 +10,7 @@ v1.0.14
 1. 修正ios未启动app点击通知提示不在主线程执行
 2. 升级ShortcutBadger v1.1.22
 3. 升级阿里云移动推送sdk android v3.1.4
-4. 支持android8.0推送通道设置(MainApplication中加入代码有更新，注意查看readme.MD历史确认代码变更点),[阿里云文档](https://help.aliyun.com/knowledge_detail/67398.html?accounttraceid=86ba30f0-d830-43ff-ae14-4a279fb43df5)
+4. 支持android8.0推送通道设置(MainApplication中加入代码有更新，注意查看readme.MD历史确认代码变更点),[阿里云文档](https://help.aliyun.com/knowledge_detail/67398.html)
 
 
 v1.0.13
@@ -171,7 +171,7 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
     super.onCreate();
     
     //下面是添加的代码
-    this.initCloudChannel();
+    this.initCloudChannel(this);
     //添加结束
   }
 
@@ -180,14 +180,14 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
    * 初始化阿里云推送通道
    * @param applicationContext
    */
-  private void initCloudChannel() {
+  private void initCloudChannel(final Context applicationContext) {
 
     // 创建notificaiton channel
     this.createNotificationChannel();
-    PushServiceFactory.init(this.getApplicationContext());
+    PushServiceFactory.init(applicationContext);
     CloudPushService pushService = PushServiceFactory.getCloudPushService();
     pushService.setNotificationSmallIcon(R.mipmap.ic_launcher_s);//设置通知栏小图标， 需要自行添加
-    pushService.register(this.getApplicationContext(), "阿里云appKey", "阿里云appSecret", new CommonCallback() {
+    pushService.register(applicationContext, "阿里云appKey", "阿里云appSecret", new CommonCallback() {
       @Override
       public void onSuccess(String responnse) {
         // success
@@ -199,9 +199,9 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
     });
 
     // 注册方法会自动判断是否支持小米系统推送，如不支持会跳过注册。
-    MiPushRegister.register(this.getApplicationContext(), "小米AppID", "小米AppKey");
+    MiPushRegister.register(applicationContext, "小米AppID", "小米AppKey");
     // 注册方法会自动判断是否支持华为系统推送，如不支持会跳过注册。
-    HuaWeiRegister.register(this.getApplicationContext());
+    HuaWeiRegister.register(applicationContext);
     // 接入FCM/GCM初始化推送
     GcmRegister.register(applicationContext, "send_id", "application_id"); 
   }
