@@ -1,0 +1,5 @@
+rootProject.name = 'sample'
+include ':react-native-aliyun-push'
+project(':react-native-aliyun-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-aliyun-push/android')
+
+include ':app'
