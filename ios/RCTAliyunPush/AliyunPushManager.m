@@ -39,7 +39,7 @@ NSString *const ALIYUN_PUSH_TYPE_NOTIFICATION = @"notification";
 
 @implementation AliyunPushManager
 {
-
+    bool hasListeners;
 }
 
 
@@ -681,9 +681,15 @@ RCT_EXPORT_METHOD(getAuthorizationStatus:(RCTResponseSenderBlock)callback)
     for (NSString *key in notification) {
         DLog(@"key: %@ value: %@", key, notification[key]);
     }
+    
+    notification[@"appState"] = [self getAppState];
 
     //修正app退出后，点击通知会闪退bug
     AliyunPushManager* __weak weakSelf = self;
+    if(!hasListeners){
+        initialNotification = notification;
+        return;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         //修正app退出后，点击通知会闪退bug
         if([UIApplication sharedApplication].applicationState == UIApplicationStateActive
@@ -693,4 +699,33 @@ RCT_EXPORT_METHOD(getAuthorizationStatus:(RCTResponseSenderBlock)callback)
     });
 }
 
+-(void)startObserving {
+    hasListeners = YES;
+    // Set up any upstream listeners or background tasks as necessary
+}
+-(void)stopObserving {
+    hasListeners = NO;
+    // Remove upstream listeners, stop unnecessary background tasks
+}
+//存储初始化的消息
+static NSMutableDictionary * initialNotification = nil;
+
+RCT_EXPORT_METHOD(getInitialMessage:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve(initialNotification);
+}
+-(NSString *)getAppState
+{
+    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    if(state == UIApplicationStateActive){
+        return @"active";
+    }else if(state == UIApplicationStateInactive){
+        return @"inactive";
+    }else if(state == UIApplicationStateBackground){
+        return @"background";
+    }else{
+        return nil;
+    }
+}
 @end

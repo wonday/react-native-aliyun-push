@@ -9,6 +9,7 @@
 package org.wonday.aliyun.push;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -161,10 +162,14 @@ public class AliyunPushMessageReceiver extends MessageReceiver {
 
     private void sendEvent(String eventName, @Nullable WritableMap params) {
         if (context == null) {
+            params.putString("appState", "background");
+            initialMessage = params;
             FLog.d(ReactConstants.TAG, "reactContext==null");
         }else{
             context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, params);
         }
     }
+    public static WritableMap initialMessage = null;
+
 }
