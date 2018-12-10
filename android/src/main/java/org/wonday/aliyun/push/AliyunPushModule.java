@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -277,4 +278,8 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
 
     }
 
+    @ReactMethod
+    public void getInitialMessage(final Promise promise){
+        promise.resolve(AliyunPushMessageReceiver.initialMessage);
+    }
 }

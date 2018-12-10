@@ -43,6 +43,25 @@ export default class AliyunPush {
         return AliyunPushNative.getDeviceId();
     }
 
+    static getInitialMessage = () => {
+        return AliyunPushNative.getInitialMessage().then(e => {
+            if(e && e.extraStr) {
+                let extras = JSON.parse(e.extraStr);
+                if (extras) {
+                    if (extras.badge) {
+                        let badgeNumber = parseInt(extras.badge);
+                        if (!isNaN(badgeNumber)) {
+                            AliyunPush.setApplicationIconBadgeNumber(badgeNumber);
+                        }
+                    }
+                    e.extras = extras;
+                }
+                delete e.extraStr;
+            }
+            return e;
+        });
+    }
+
     static getApplicationIconBadgeNumber = (callback) => {
         AliyunPushNative.getApplicationIconBadgeNumber(function(args) {
             callback(args);
