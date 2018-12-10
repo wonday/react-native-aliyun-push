@@ -5,6 +5,9 @@
 
 
 ### 修改履历
+v1.0.15
+1. 增加getInitialMessage方法
+2. add sample
 
 v1.0.14
 1. 修正ios未启动app点击通知提示不在主线程执行
@@ -38,58 +41,7 @@ AliyunPush.getDeviceId()
         console.log("getDeviceId() failed");
     });
 ```
-
-
-v1.0.11
-
-1. 增加角标同步功能syncBadgeNum()（仅iOS支持）
-2. 增加是否开启通知判断函数getAuthorizationStatus() (仅iOS10.0支持)
-
-v1.0.10
-
-1. 升级阿里云SDK android v3.1.3, iOS v1.9.8
-
-v1.0.9
-
-废弃
-
-v1.0.8
-
-1. 修正app退出后，收到通知，点击通知后app闪退
-
-v1.0.7
-
-1. 修正android permission setting位置错误
-
-v1.0.6
-
-1. 升级阿里云移动推送SDK
-2. 修复ios推送消息导致signal SIGABRT的bug
-
-v1.0.5
-
-1. .npmignore中添加.git
-
-v1.0.4
-
-1. 删除对PropTypes的import #8
-
-v1.0.3
-
-1. 修正iOS上xcode9编译警告 #6 
-2. iOS版本工程文件升级为xcode9格式
-
-v1.0.2
-
-1. 修正iOS上actionIdentifier错误,"open"->"opened" #5 
-
-v1.0.1
-
-1. 设置badgeNumber时，增加对badgeNumber判断，避免小米上显示0条消息未读
-
-v1.0.0
-
-1. 初始发布
+[[more]](https://github.com/wonday/react-native-aliyun-push/releases)
 
 
 ## 前提
@@ -536,4 +488,29 @@ AliyunPush.syncBadgeNum(5);
 AliyunPush.getAuthorizationStatus((result)=>{
     console.log("AuthorizationStatus:" + result);
 });
+```
+
+**获取初始消息**
+
+app在未启动时收到通知后，点击通知启动app,
+如果在向JS发消息时，JS没准备好或者没注册listener，则先临时保存该消息，
+并提供getInitalMessage方法可以获取，在app的JS逻辑完成后可以继续处理该消息
+
+示例:
+```
+async componentDidMount() {
+    //监听推送事件
+    AliyunPush.addListener(this.handleAliyunPushMessage);
+    const msg = await AliyunPush.getInitialMessage();
+    if(msg){
+        this.handleAliyunPushMessage(msg);
+    }
+}
+
+componentWillUnmount() {
+    AliyunPush.removeListener(this.handleAliyunPushMessage);
+}
+handleAliyunPushMessage = (e) => {
+    .....
+}
 ```
