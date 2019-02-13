@@ -189,19 +189,20 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
 
 ## ios配置
 
-1. 添加node_modules/react-native-aliyun-push/ios/RCTAliyunPush.xcodeproj到xcode项目工程
+1. 执行```react-native link react-native-aliyun-push```或手工添加node_modules/react-native-aliyun-push/ios/RCTAliyunPush.xcodeproj到xcode项目工程
 
-2. 添加阿里云移动推送SDK
+2. 点击项目根节点，在targets app的```Build Settings```中找到```Framework search path```, 添加```$(PROJECT_DIR)/../node_modules/react-native-aliyun-push/ios/libs```
 
-拖拽node_modules/react-native-aliyun-push/ios/libs下列目录到xcode工程的```frameworks```目录下，将```copy items if needed```打勾。
-注意：从阿里云下载的SDK中UTDID.framework有问题，编译会报错，请使用react-native-aliyun-push中内置的版本。
+3. 添加阿里云移动推送SDK
+
+拖拽node_modules/react-native-aliyun-push/ios/libs下列目录到xcode工程的```frameworks```目录下，选择```create folder references```。
 
 - AlicloudUtils.framework
 - CloudPushSDK.framework
 - UTDID.framework
 - UTMini.framework
 
-3. 点击项目根节点，在targets app的BuildPhase的Link Binary With Libraries中添加公共包依赖
+4. 点击项目根节点，在targets app的BuildPhase的Link Binary With Libraries中添加公共包依赖
 
 - libz.tbd
 - libresolv.tbd
@@ -211,12 +212,13 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
 - UserNotifications.framework
 
 同时确保targets app的BuildPhase的Link Binary With Libraries包含
+
 - AlicloudUtils.framework
 - CloudPushSDK.framework
 - UTDID.framework
 - UTMini.framework
 
-4. 修改AppDelegate.m添加如下代码
+5. 修改AppDelegate.m添加如下代码
 ```
 #import "AliyunPushManager.h"
 ```
