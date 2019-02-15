@@ -575,8 +575,8 @@ RCT_EXPORT_METHOD(getAuthorizationStatus:(RCTResponseSenderBlock)callback)
     
     NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
     
-    // 通知时间
-    notificationDict[@"date"] = [NSDate init];
+    // 通知时间，修复：iOS低版本下点击推送闪退的问题（未分配内存就初始化对象）
+    notificationDict[@"date"] = [[NSDate alloc] init];
     
     // 标题
     notificationDict[@"title"] = @"";
