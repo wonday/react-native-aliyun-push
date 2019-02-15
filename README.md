@@ -5,6 +5,9 @@
 
 
 ### 修改履历
+v1.0.16
+1. 修复ios低版本收到通知后闪退问题
+
 v1.0.15
 1. 增加getInitialMessage方法
 2. add sample
