@@ -135,6 +135,13 @@ export default class AliyunPush {
 
     };
 
+    static removeAllListener = () => {
+        for(var key in listeners){
+            listeners[key].remove();
+            listeners[key] = null;
+        }
+    };
+    
     static _addListener = (callback,type) => {
 
         var key = getKey(callback,type);
