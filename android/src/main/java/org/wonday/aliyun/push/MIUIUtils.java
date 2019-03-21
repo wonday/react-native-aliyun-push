@@ -47,28 +47,23 @@ public class MIUIUtils {
     private static int notificationId = (int)(System.currentTimeMillis()/1000);
 
 
-    public static boolean isMIUI() {
+    public static boolean isMIUI(Context context) {
         if(hasChecked)
         {
             return isMIUI;
         }
-
-        Properties prop= new Properties();
-
         try {
-            prop.load(new FileInputStream(new File(Environment.getRootDirectory(), "build.prop")));
-        } catch (IOException e)
+            SystemProperty sp = new SystemProperty(context);
+            if (sp.getOrThrow(KEY_MIUI_VERSION_CODE) != null || sp.getOrThrow(KEY_MIUI_VERSION_NAME) != null || sp.getOrThrow(KEY_MIUI_INTERNAL_STORAGE) != null) {
+                hasChecked = true;
+                isMIUI = true;
+            }
+        } catch (Exception e)
         {
             e.printStackTrace();
             return false;
         }
-
-        isMIUI= prop.getProperty(KEY_MIUI_VERSION_CODE, null) != null
-        || prop.getProperty(KEY_MIUI_VERSION_NAME, null) != null
-        || prop.getProperty(KEY_MIUI_INTERNAL_STORAGE, null) != null;
-
-        hasChecked = true;
-
+        
         return isMIUI;
     }
 
