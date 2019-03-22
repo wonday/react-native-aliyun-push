@@ -91,7 +91,7 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
     @ReactMethod
     public void setApplicationIconBadgeNumber(int badgeNumber, final Promise promise) {
 
-        if (MIUIUtils.isMIUI()) { //小米特殊处理
+        if (MIUIUtils.isMIUI(getReactApplicationContext())) { //小米特殊处理
             FLog.d(ReactConstants.TAG, "setApplicationIconBadgeNumber for xiaomi");
 
             if (badgeNumber==0) {
@@ -260,7 +260,7 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
     public void onHostPause() {
 
         //小米特殊处理, 处于后台时更新角标， 否则会被系统清除，看不到
-        if (MIUIUtils.isMIUI()) {
+        if (MIUIUtils.isMIUI(getReactApplicationContext())) {
             FLog.d(ReactConstants.TAG, "onHostPause:setBadgeNumber for xiaomi");
             MIUIUtils.setBadgeNumber(this.context, getCurrentActivity().getClass(), badgeNumber);
         }
@@ -271,7 +271,7 @@ public class AliyunPushModule extends ReactContextBaseJavaModule implements Life
     public void onHostDestroy() {
 
         //小米特殊处理, 处于后台时更新角标， 否则会被系统清除，看不到
-        if (MIUIUtils.isMIUI()) {
+        if (MIUIUtils.isMIUI(getReactApplicationContext())) {
             FLog.d(ReactConstants.TAG, "onHostDestroy:setBadgeNumber for xiaomi");
             MIUIUtils.setBadgeNumber(this.context, getCurrentActivity().getClass(), badgeNumber);
         }
