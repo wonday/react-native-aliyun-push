@@ -5,6 +5,10 @@
 
 
 ### 修改履历
+v1.0.17
+1. add AliyunPush.removeAllListeners()
+2. 修复MIUIUtils类中isMIUI方法android 8.0以上异常
+
 v1.0.16
 1. 修复ios低版本收到通知后闪退问题
 
@@ -292,8 +296,11 @@ componentDidMount() {
 }
 
 componentWillUnmount() {
-    //
+    //移除监听
     AliyunPush.removeListener(this.handleAliyunPushMessage);
+
+    //也可以用移除全部监听
+    //AliyunPush.removeAllListeners()
 }
 
 handleAliyunPushMessage = (e) => {
