@@ -39,6 +39,6 @@ dependencies {
     compile 'com.aliyun.ams:alicloud-android-beacon:1.0.1'
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
-    compile(name: 'alicloud-android-third-push-3.0.5', ext: 'aar')
+    compile(name: 'alicloud-android-third-push-3.0.6', ext: 'aar')
     compile 'me.leolin:ShortcutBadger:1.1.22@aar'
 }
