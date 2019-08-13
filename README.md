@@ -6,7 +6,9 @@
 
 ### 修改履历
 v1.0.18
-1. 更新到android版alicloud-android-third-push-3.1.4，支持弹出窗
+
+1. 更新了第三方辅助通道SDK至3.0.6，支持了OPPO
+
 
 v1.0.17
 1. add AliyunPush.removeAllListeners()
@@ -166,8 +168,9 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
     HuaWeiRegister.register(applicationContext);
     // 接入FCM/GCM初始化推送
     GcmRegister.register(applicationContext, "send_id", "application_id"); 
-    // 注册Oppo推送
-    OppoRegister.register(applicationContext, "appKey", "appSecret");
+    // OPPO通道注册
+    OppoRegister.register(applicationContext, appKey, appSecret); // appKey/appSecret在OPPO通道开发者平台获取
+
   }
 
 
