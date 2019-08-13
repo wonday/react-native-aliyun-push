@@ -5,6 +5,9 @@
 
 
 ### 修改履历
+v1.0.18
+1. 更新到android版alicloud-android-third-push-3.1.4，支持弹出窗
+
 v1.0.17
 1. add AliyunPush.removeAllListeners()
 2. 修复MIUIUtils类中isMIUI方法android 8.0以上异常
@@ -163,6 +166,8 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
     HuaWeiRegister.register(applicationContext);
     // 接入FCM/GCM初始化推送
     GcmRegister.register(applicationContext, "send_id", "application_id"); 
+    // 注册Oppo推送
+    OppoRegister.register(applicationContext, "appKey", "appSecret");
   }
 
 
