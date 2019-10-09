@@ -45,7 +45,6 @@
  *
  *                              调用顺序:aidAsync任意时刻都可以调用.
  *
- * @return                      AID.
  */
 +(void) aidAsync:(NSString *)appName
                  token:(NSString *)token

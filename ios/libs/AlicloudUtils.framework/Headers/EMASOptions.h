@@ -24,6 +24,7 @@
 @property (nonatomic, copy, readonly) NSString *emasBundleId;
 @property (nonatomic, copy, readonly) NSString *hotfixIdSecret;
 @property (nonatomic, copy, readonly) NSString *hotfixRsaSecret;
+@property (nonatomic, copy, readonly) NSString *tlogRsaSecret;
 @property (nonatomic, copy, readonly) NSString *httpdnsAccountId;
 @property (nonatomic, copy, readonly) NSString *httpdnsSecretKey;
 
