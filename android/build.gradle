@@ -34,7 +34,7 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.facebook.react:react-native:+'
-    api ('com.aliyun.ams:alicloud-android-push:3.1.5')
+    api ('com.aliyun.ams:alicloud-android-push:3.1.6')
     {
         exclude module:'alicloud-android-utdid'
     }
@@ -48,7 +48,7 @@ dependencies {
     implementation ('com.aliyun.ams:alicloud-android-ut:5.4.0') {
         exclude module:'alicloud-android-utdid'
     }
-    api(name: 'alicloud-android-third-push-3.0.6', ext: 'aar') {
+    api(name: 'alicloud-android-third-push-3.0.9', ext: 'aar') {
         exclude module:'alicloud-android-utdid'
     }
     implementation 'me.leolin:ShortcutBadger:1.1.22@aar'
