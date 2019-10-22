@@ -5,10 +5,16 @@
 
 
 ### 修改履历
+
+v1.0.19
+
+1. 更新了第三方辅助通道SDK至3.0.9
+2. 升级阿里云移动推送sdk android v3.1.6
+3. 更新Android buildTools版本至28.0.3
+
 v1.0.18
 
 1. 更新了第三方辅助通道SDK至3.0.6，支持了OPPO
-
 
 v1.0.17
 1. add AliyunPush.removeAllListeners()
