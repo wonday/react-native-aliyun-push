@@ -48,18 +48,25 @@ public class MIUIUtils {
 
 
     public static boolean isMIUI(Context context) {
-        if(hasChecked)
-        {
+        if(hasChecked) {
             return isMIUI;
         }
+        
         try {
             SystemProperty sp = new SystemProperty(context);
-            if (sp.getOrThrow(KEY_MIUI_VERSION_CODE) != null || sp.getOrThrow(KEY_MIUI_VERSION_NAME) != null || sp.getOrThrow(KEY_MIUI_INTERNAL_STORAGE) != null) {
+            String ret1 = "";
+            String ret2 = "";
+            String ret3 = "";
+            ret1 = sp.getOrThrow(KEY_MIUI_VERSION_CODE);
+            ret2 = sp.getOrThrow(KEY_MIUI_VERSION_NAME);
+            ret3 = sp.getOrThrow(KEY_MIUI_INTERNAL_STORAGE);
+            if ((ret1 != null && ret1.compareToIgnoreCase("") != 0) ||
+                (ret2 != null && ret2.compareToIgnoreCase("") != 0) ||
+                (ret3 != null && ret3.compareToIgnoreCase("") != 0)) {
                 hasChecked = true;
                 isMIUI = true;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
