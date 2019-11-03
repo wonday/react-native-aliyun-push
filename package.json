@@ -1,6 +1,6 @@
 {
     "name": "react-native-aliyun-push",
-    "version": "1.0.19",
+    "version": "1.0.20",
     "description": "A react native wrapper for aliyun push SDK",
     "main": "index.js",
     "repository": {
