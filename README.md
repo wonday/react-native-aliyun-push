@@ -4,7 +4,8 @@
 [阿里云移动推送](https://www.aliyun.com/product/cps?spm=5176.2020520107.0.0.fgXGFp)react-native封装组件
 
 
-### 修改履历
+<details>
+  <summary>修改履历</summary> 
 
 v1.0.20
 
@@ -65,11 +66,12 @@ AliyunPush.getDeviceId()
     });
 ```
 [[more]](https://github.com/wonday/react-native-aliyun-push/releases)
-
+</details>
 
 ## 前提
 使用本组件前提是注册过阿里云移动推送服务，注册过app并取得了appKey及appSecret, 如果要使用ios版还要向苹果公司申请证书并配置好阿里云上的设置。
 这里不详细描述，请参考[阿里云移动推送文档](https://help.aliyun.com/document_detail/30054.html)
+
 ## 安装
 
 ReactNative 0.59.x及以前
@@ -83,8 +85,8 @@ ReactNative 0.60.x及以后
 yarn add react-native-aliyun-push
 ```
 
-
-## android配置
+<details>
+  <summary>android配置</summary> 
 1. 在Project根目录下build.gradle文件中配置maven库URL:
 ```
 allprojects {
@@ -120,7 +122,7 @@ dependencies {
 }
 ```
 
-4. android->app->src->main->res->values->styles.xml中添加如下代码
+4. 请在android->app->src->main->res->values->styles.xml中添加如下代码
 ```
 <style name="upsdkDlDialog" parent="@android:style/Theme.Holo.Light"> 
   <item name="android:windowBackground">@android:color/transparent</item>
@@ -240,11 +242,14 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
       }
   }
   // 添加结束
-
   
 ```
+###注意: 如果你使用多个阿里云SDK, 遇到alicloud-android-utdid冲突，
+请参考 [[这里]](https://github.com/wonday/react-native-aliyun-push/issues/113)
+</details>
 
-## ios配置
+<details>
+  <summary>ios配置</summary>
 
 1. 执行```react-native link react-native-aliyun-push```或手工添加node_modules/react-native-aliyun-push/ios/RCTAliyunPush.xcodeproj到xcode项目工程
 
@@ -330,8 +335,10 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
 }
 // 添加结束
 ```
+</details>
 
-## 使用示例
+<details>
+  <summary>使用示例</summary>
 
 引入模块
 ```
@@ -367,8 +374,11 @@ handleAliyunPushMessage = (e) => {
 };
 
 ```
+</details>
 
-## 阿里云SDK接口封装
+<details>
+  <summary>阿里云SDK接口封装</summary>
+
 详细参数说明请参考阿里云移动推送SDK [[android版]](https://help.aliyun.com/document_detail/30066.html?spm=5176.doc30064.6.643.Mu5vP0)    [[ios版]](https://help.aliyun.com/document_detail/42668.html?spm=5176.doc30066.6.649.VmzJfM)
 
 **获取deviceId**
@@ -576,3 +586,4 @@ handleAliyunPushMessage = (e) => {
     .....
 }
 ```
+</details>
