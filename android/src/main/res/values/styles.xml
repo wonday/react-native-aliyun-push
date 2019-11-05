@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="ImageTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar"> 
+        <item name="android:windowTranslucentStatus">true</item> 
+        <item name="android:windowTranslucentNavigation">true</item> 
+    </style>
+    <style name="upsdkDlDialog" parent="Theme.AppCompat.Light.NoActionBar"> 
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>
