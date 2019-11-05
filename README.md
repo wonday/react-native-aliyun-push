@@ -7,6 +7,10 @@
 <details>
   <summary>修改履历</summary> 
 
+v1.0.21
+
+1. 修正android编译配置
+
 v1.0.20
 
 1. 升级阿里云移动推送sdk ios v1.9.9
@@ -87,6 +91,7 @@ yarn add react-native-aliyun-push
 
 <details>
   <summary>android配置</summary> 
+
 1. 在Project根目录下build.gradle文件中配置maven库URL:
 ```
 allprojects {
@@ -121,17 +126,7 @@ dependencies {
     //添加结束
 }
 ```
-
-4. 请在android->app->src->main->res->values->styles.xml中添加如下代码
-```
-<style name="upsdkDlDialog" parent="@android:style/Theme.Holo.Light"> 
-  <item name="android:windowBackground">@android:color/transparent</item>
-  <item name="android:windowNoTitle">true</item>
-  <item name="android:windowIsTranslucent">true</item>
-</style>
-```
-
-5. 确保MainApplication.java中被添加如下代码
+4. 确保MainApplication.java中被添加如下代码
 ```
 // 下面是被添加的代码
 
@@ -244,7 +239,7 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
   // 添加结束
   
 ```
-###注意: 如果你使用多个阿里云SDK, 遇到alicloud-android-utdid冲突，
+### 注意: 如果你使用多个阿里云SDK, 遇到alicloud-android-utdid冲突，
 请参考 [[这里]](https://github.com/wonday/react-native-aliyun-push/issues/113)
 </details>
 
