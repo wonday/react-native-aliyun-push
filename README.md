@@ -71,10 +71,19 @@ AliyunPush.getDeviceId()
 使用本组件前提是注册过阿里云移动推送服务，注册过app并取得了appKey及appSecret, 如果要使用ios版还要向苹果公司申请证书并配置好阿里云上的设置。
 这里不详细描述，请参考[阿里云移动推送文档](https://help.aliyun.com/document_detail/30054.html)
 ## 安装
+
+ReactNative 0.59.x及以前
 ```
 npm install react-native-aliyun-push --save
 react-native link react-native-aliyun-push
 ```
+
+ReactNative 0.60.x及以后
+```
+yarn add react-native-aliyun-push
+```
+
+
 ## android配置
 1. 在Project根目录下build.gradle文件中配置maven库URL:
 ```
@@ -110,7 +119,17 @@ dependencies {
     //添加结束
 }
 ```
-4. 确保MainApplication.java中被添加如下代码
+
+4. android->app->src->main->res->values->styles.xml中添加如下代码
+```
+<style name="upsdkDlDialog" parent="@android:style/Theme.Holo.Light"> 
+  <item name="android:windowBackground">@android:color/transparent</item>
+  <item name="android:windowNoTitle">true</item>
+  <item name="android:windowIsTranslucent">true</item>
+</style>
+```
+
+5. 确保MainApplication.java中被添加如下代码
 ```
 // 下面是被添加的代码
 
@@ -125,7 +144,7 @@ import org.wonday.aliyun.push.AliyunPushPackage;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
-import com.alibaba.sdk.android.push.register.HuaWeiRegister;
+import com.alibaba.sdk.android.push.huawei.HuaWeiRegister;
 import com.alibaba.sdk.android.push.register.MiPushRegister;
 import com.alibaba.sdk.android.push.register.GcmRegister;
 // 添加结束
@@ -173,14 +192,26 @@ import com.alibaba.sdk.android.push.register.GcmRegister;
       }
     });
 
+    // 关于第三方推送通道的设置，请仔细阅读阿里云文档
+    // https://help.aliyun.com/document_detail/30067.html?spm=a2c4g.11186623.6.589.598b7fa8vf9qWF
+
     // 注册方法会自动判断是否支持小米系统推送，如不支持会跳过注册。
     MiPushRegister.register(applicationContext, "小米AppID", "小米AppKey");
+
     // 注册方法会自动判断是否支持华为系统推送，如不支持会跳过注册。
-    HuaWeiRegister.register(applicationContext);
+    HuaWeiRegister.register(this);
+
     // 接入FCM/GCM初始化推送
     GcmRegister.register(applicationContext, "send_id", "application_id"); 
+
     // OPPO通道注册
     OppoRegister.register(applicationContext, appKey, appSecret); // appKey/appSecret在OPPO通道开发者平台获取
+
+    // 魅族通道注册
+    MeizuRegister.register(applicationContext, "appId", "appkey"); // appId/appkey在魅族开发者平台获取
+
+    // VIVO通道注册
+    VivoRegister.register(applicationContext);
 
   }
 
