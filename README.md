@@ -6,6 +6,10 @@
 
 <details>
   <summary>修改履历</summary> 
+v1.0.22
+
+1. 修正alicloud-android-utdid Android编译错误
+2. 更新阿里云移动推送SDK
 
 v1.0.21
 
@@ -37,37 +41,6 @@ v1.0.15
 1. 增加getInitialMessage方法
 2. add sample
 
-v1.0.14
-1. 修正ios未启动app点击通知提示不在主线程执行
-2. 升级ShortcutBadger v1.1.22
-3. 升级阿里云移动推送sdk android v3.1.4
-4. 支持android8.0推送通道设置(MainApplication中加入代码有更新，注意查看readme.MD历史确认代码变更点),[阿里云文档](https://help.aliyun.com/knowledge_detail/67398.html)
-
-
-v1.0.13
-1. 更新android build tool到v26.0.3
-
-v1.0.12
-1. getDeviceId()逻辑处理变更为一次取得失败后延迟三秒再次获取
-2. ```重要变更```getDeviceId()接口变更为Promise模式，使用旧版本需要升级代码。
-
-
-**v1.0.11及以前代码用法:**
-```
-AliyunPush.getDeviceId((deviceId)=>{
-    console.log("AliyunPush DeviceId:" + deviceId);
-});
-```
-
-**v1.0.12及以后代码用法:**
-```
-AliyunPush.getDeviceId()
-    .then((deviceId)=>{
-        //console.log("deviceId:"+deviceId);
-    })
-    .catch((error)=>{
-        console.log("getDeviceId() failed");
-    });
 ```
 [[more]](https://github.com/wonday/react-native-aliyun-push/releases)
 </details>
