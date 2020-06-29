@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define ALICLOUDUTILS_VERSION @"1.3.7"
+#define ALICLOUDUTILS_VERSION @"1.3.8"
 
 // In this header, you should import all the public headers of your framework using statements like #import <AlicloudUtils/PublicHeader.h>
 

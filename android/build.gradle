@@ -24,15 +24,11 @@ android {
 }
 
 repositories {
-    flatDir {
-        dirs 'libs'
-    }
     jcenter()
 }
 
 dependencies {
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.facebook.react:react-native:+'
 
     api 'com.aliyun.ams:alicloud-android-push:3.1.6'
@@ -40,7 +36,7 @@ dependencies {
     api 'com.aliyun.ams:alicloud-android-beacon:1.0.2'
     api 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     api 'com.aliyun.ams:alicloud-android-ut:5.4.0'
-    api 'com.aliyun.ams:alicloud-android-third-push:3.0.9'
+    api 'com.aliyun.ams:alicloud-android-third-push:3.1.0'
 
     // huawei
     api 'com.google.firebase:firebase-messaging:17.6.0'
@@ -48,7 +44,10 @@ dependencies {
     api 'com.aliyun.ams:huawei-push-base:2.6.3.305'
 
     // meizu
-    api 'com.aliyun.ams:meizu-push:3.8.3-fix'
+    api 'com.aliyun.ams:meizu-push:3.8.7.1'
+
+    // vivo
+    api 'com.aliyun.ams:third_vivopush:2.9.0.1'
 
     // shortcutBadger
     api 'me.leolin:ShortcutBadger:1.1.22@aar'
