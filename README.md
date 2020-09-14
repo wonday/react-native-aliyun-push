@@ -41,7 +41,6 @@ v1.0.15
 1. 增加getInitialMessage方法
 2. add sample
 
-```
 [[more]](https://github.com/wonday/react-native-aliyun-push/releases)
 </details>
 
