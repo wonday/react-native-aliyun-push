@@ -138,7 +138,7 @@ export default class AliyunPush {
     static removeAllListeners = () => {
         for(var key in listeners){
             listeners[key].remove();
-            listeners[key] = null;
+            delete(listeners[key]);
         }
     };
 
